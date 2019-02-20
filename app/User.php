@@ -1,30 +1,38 @@
 <?php
 
 namespace App;
+
+use App\Http\Traits\Translator;
 use Caffeinated\Shinobi\Traits\ShinobiTrait;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use App\Models\Department;
+use Carbon\Carbon;
 
 class User extends Authenticatable
 {
-    use Notifiable, ShinobiTrait;
+    use Notifiable, ShinobiTrait, Translator;
 
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array
-     */
     protected $fillable = [
         'name', 'email', 'password',
     ];
 
-    /**
-     * The attributes that should be hidden for arrays.
-     *
-     * @var array
-     */
     protected $hidden = [
         'password', 'remember_token',
     ];
+
+    protected $appends = ['admission'];
+
+    protected $dates = ['created_at', 'updated_at'];
+
+    public function getAdmissionAttribute()
+    {
+      return $this->monthTranslator($this->created_at->format('n')).", ".$this->created_at->format('Y');
+    }
+
+    public function department()
+    {
+      return $this->belongsTo(Department::class);
+    }
 }

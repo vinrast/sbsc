@@ -14,7 +14,8 @@
         "jeroennoten/laravel-adminlte": "^1.24",
         "laravel/framework": "5.7.*",
         "laravel/tinker": "^1.0",
-        "laraveles/spanish": "^1.1"
+        "laraveles/spanish": "^1.1",
+        "nesbot/carbon": "1.36.2"
     },
     "require-dev": {
         "beyondcode/laravel-dump-server": "^1.0",

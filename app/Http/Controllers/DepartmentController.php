@@ -4,80 +4,65 @@ namespace App\Http\Controllers;
 
 use App\Models\Department;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 
 class DepartmentController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+    public function validator($request)
+    {
+      $request->validate([
+          'name'        => 'required|unique:departments|max:191',
+          'description' => 'nullable'
+      ]);
+    }
+
     public function index()
     {
-        //
+        $departments = Department::paginate(30);
+
+        return view('departments.index', compact('departments'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function create()
     {
-        //
+        return view('departments.create', ['department' => new Department() ]);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request)
     {
-        //
+      $this->validator($request);
+
+      Department::create([
+        'name'        => ucwords(mb_strtolower( $request->name )),
+        'description' => ucfirst(mb_strtolower( $request->description ))
+      ]);
+
+      return back()->with('message', "El departamento {$request->name} fue cargado correctamente");
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Department  $department
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Department $department)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Department  $department
-     * @return \Illuminate\Http\Response
-     */
     public function edit(Department $department)
     {
-        //
+      return view('departments.edit', ['department' => $department ]);
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Department  $department
-     * @return \Illuminate\Http\Response
-     */
     public function update(Request $request, Department $department)
     {
-        //
+        $request->validate([
+            'name' => [
+              'required',
+               Rule::unique('departments')->ignore($department->id),
+              'max:191'
+             ],
+            'description' => 'nullable'
+        ]);
+        $department->update([
+          'name'        => ucwords(mb_strtolower( $request->name )),
+          'description' => ucfirst(mb_strtolower( $request->description ) )
+        ]);
+
+        return redirect()->route('departamentos')->with('message',"Departamento {$department->name} actualizado con exito");
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\Department  $department
-     * @return \Illuminate\Http\Response
-     */
     public function destroy(Department $department)
     {
         //

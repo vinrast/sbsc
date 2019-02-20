@@ -37,6 +37,8 @@
                         </ul>
                     </div>
                     <!-- /.navbar-collapse -->
+                </div
+            </nav>
             @else
             <!-- Logo -->
             <a href="{{ url(config('adminlte.dashboard_url', 'home')) }}" class="logo">
@@ -59,17 +61,17 @@
                     <ul class="nav navbar-nav">
                         <li class="dropdown user user-menu">
                           <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                            <img src="{{ asset('vendor/adminlte/images/placeholder_user.png')}}" class="user-image" alt="User Image">
+                            <img src="{{ asset('vendor/adminlte/images')}}/{{ auth()->user()->avatar ?? 'placeholder_user.png' }}" class="user-image" alt="User Image">
                             <span class="hidden-xs">Vincen Santaella</span>
                           </a>
                           <ul class="dropdown-menu">
                             <!-- User image -->
                             <li class="user-header">
-                              <img src="{{ asset('vendor/adminlte/images/placeholder_user.png')}}" class="img-circle" alt="User Image">
+                              <img src="{{ asset('vendor/adminlte/images')}}/{{ auth()->user()->avatar ?? 'placeholder_user.png' }}" class="img-circle" alt="User Image">
 
                               <p>
-                                Vincen Santaella - Desarrollo de Software
-                                <small>Miembro desde Diciembre. 2018</small>
+                                {{ auth()->user()->name }} - {{ auth()->user()->department->name }}
+                                <small>Miembro desde {{ auth()->user()->admission }}</small>
                               </p>
                             </li>
                             <!-- Menu Footer-->
@@ -115,11 +117,11 @@
             <section class="sidebar">
               <div class="user-panel">
                 <div class="pull-left image">
-                  <img src="{{ asset('vendor/adminlte/images/placeholder_user.png')}}" class="img-circle" alt="User Image">
+                    <img src="{{ asset('vendor/adminlte/images')}}/{{ auth()->user()->avatar ?? 'placeholder_user.png' }}" class="img-circle" alt="User Image">
                 </div>
                 <div class="pull-left info">
-                  <p>Vincen Santaella</p>
-                  <a href="#"><i class="fa fa-circle text-success"></i> Online</a>
+                  <p>{{ auth()->user()->name }}</p>
+                  <i class="fa fa-circle text-success"></i> Online
                 </div>
               </div>
                 <!-- Sidebar Menu -->

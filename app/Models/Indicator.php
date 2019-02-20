@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Models\Perspective;
 
 class Indicator extends Model
 {
@@ -14,6 +15,6 @@ class Indicator extends Model
 
   public function perspective()
   {
-    return $this->belongsTo(App\Models\Perspective::class);
+    return $this->belongsTo(Perspective::class);
   }
 }
