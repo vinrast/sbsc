@@ -3,7 +3,7 @@
 @section('title', 'SBSC | Departamentos')
 
 @section('content_header')
-    <h1>Departamentos</h1>
+    <h1>Roles de Usuario</h1>
 @stop
 
 @section('content')
@@ -22,37 +22,39 @@
     <div class="box box-info">
       <div class="box-header">
         <h3 class="box-title"></h3>
-        @can('ajustes.departamentos.crear')
+        @can('ajustes.roles.crear')
           <button type="button" class="btn btn-success btn-flat pull-right" name="button" onclick="create()"> Nuevo</button>
         @endcan
       </div>
       <!-- /.box-header -->
       <div class="box-body">
         <div class="table-responsive">
-          <table id="example2" class="table table-bordered table-hover">
+          <table id="example2" class="table table-bordered table-hover ">
             <thead>
               <tr>
                 <th>Nombre</th>
                 <th width="40%" >Descripción</th>
+                <th width="20%">Permisos Especiales</th>
                 <th>Usuarios</th>
                 <th colspan="2">Acciones</th>
               </tr>
             </thead>
             <tbody>
-              @foreach($departments as $department)
+              @foreach($roles as $role)
                 <tr>
-                  <td> {{ $department->name }} </td>
-                  <td> {{ $department->description ? $department->description : 'Sin descripción'}} </td>
-                  <td>{{ $department->users()->count() }}</td>
+                  <td> {{ $role->name }} </td>
+                  <td> {{ $role->description ? $role->description : 'Sin descripción'}} </td>
+                  <td>{{ $role->special ? $role->special: 'No definidos' }}</td>
+                  <td>{{ $role->users()->count() }}</td>
                   <td class="text-center">
-                    @can('ajustes.departamentos.editar')
-                      <a href="{{ route('departamentos.editar',[$department->id]) }}"><i class="fa fa-pencil fa-lg"></i></a>
+                    @can('ajustes.roles.editar')
+                      <a href="{{ route('roles.editar',[$role->id]) }}"><i class="fa fa-pencil fa-lg"></i></a>
                     @endcan
                   </td>
                   <td>
-                    @can('ajustes.departamentos.eliminar')
-                      @if( !$department->users()->count() )
-                        <a href="#" data-id="{{ $department->id }}" class="delete-department-btn"><i class="fa fa-trash fa-lg"></i></a>
+                    @can('ajustes.roles.eliminar')
+                      @if( !$role->users()->count() )
+                        <a href="#" data-id="{{ $role->id }}" class="delete-role-btn"><i class="fa fa-trash fa-lg"></i></a>
                       @endif
                     @endcan
                   </td>
@@ -65,7 +67,7 @@
       <!-- /.box-body -->
       <div class="box-footer clearfix">
         <div class="pull-right">
-          {{$departments->links()}}
+          {{$roles->links()}}
         </div>
       </div>
     </div>
@@ -74,5 +76,5 @@
 @stop
 
 @section('js')
-    <script type="text/javascript" src="{{ asset('js/settings/departments.js') }}"></script>
+  <script type="text/javascript" src="{{ asset('js/settings/roles.js')}}"></script>
 @stop

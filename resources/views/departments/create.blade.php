@@ -12,7 +12,7 @@
     <div class="alert alert-success alert-dismissible">
       <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
       <h4><i class="icon fa fa-check"></i>Departamento Guardado Correctamente!</h4>
-      <p>{{ session()->get('message') }}.</p>
+      <p>{!! session()->get('message') !!}.</p>
     </div>
   @endif
   @component('departments.partials._form')
@@ -27,10 +27,5 @@
 @stop
 
 @section('js')
-    <script type="text/javascript">
-       function back()
-       {
-         location.href = "{{ route('departamentos') }}";
-       }
-    </script>
+    <script type="text/javascript" src="{{ asset('js/settings/departments.js') }}"></script>
 @stop

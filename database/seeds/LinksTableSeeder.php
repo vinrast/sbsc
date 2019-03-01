@@ -14,7 +14,7 @@ class LinksTableSeeder extends Seeder
     {
       SidebarLink::create([
         'name'          => 'Dashboard',
-        'url'           => 'home',
+        'url'           => '/',
         'icon'          => 'fa fa-dashboard',
         'family'        => '1',
         'parent'        => 0,

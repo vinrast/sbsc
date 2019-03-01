@@ -2,7 +2,7 @@
 @foreach($modules as $module)
   @can($module->permission->slug)
     @if($module->family == 1)
-      <li class="treeview">
+      <li>
         <a href="{{ url($module->url) }}">
           <i class="{{ $module->icon }}"></i> <span>{{ $module->name }}</span>
         </a>

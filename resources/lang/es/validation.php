@@ -125,8 +125,8 @@ return [
     */
 
     'custom' => [
-        'attribute-name' => [
-            'rule-name' => 'custom-message',
+        'permissions' => [
+            'permissions.required' => 'Debe marcar al menos un permiso',
         ],
     ],
 
@@ -142,8 +142,12 @@ return [
     */
 
     'attributes' => [
-      'name'        => 'nombre',
-      'description' => 'descripción'
+      'name'          => 'nombre',
+      'description'   => 'descripción',
+      'permissions'   => 'permisos',
+      'department_id' => 'departamento',
+      'role_id'       => 'rol',
+      'password'      => 'contraseña'
     ],
 
 ];

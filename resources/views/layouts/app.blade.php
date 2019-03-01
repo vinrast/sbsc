@@ -3,6 +3,8 @@
 @section('adminlte_css')
     <link rel="stylesheet"
           href="{{ asset('vendor/adminlte/dist/css/skins/skin-' . config('adminlte.skin', 'blue') . '.min.css')}} ">
+    <link href="{{ asset('/css/icheck-green.css')}}" rel="stylesheet">
+    <link href="{{ asset('/css/custom.css')}}" rel="stylesheet">
     @stack('css')
     @yield('css')
 @stop
@@ -158,11 +160,9 @@
             @endif
         </div>
         <!-- /.content-wrapper -->
-        <footer class="main-footer">
-          <center>
-            <strong>Todos los derechos reservados &copy; 2018 <a href="https://adminlte.io" target="_blank">Aplicación desarrollada con plantilla AdminLTE</a>.</strong>
-          <center>
-        </footer>
+        <!-- <footer class="main-footer mt-20">
+            <strong>Todos los derechos reservados &copy; 2019 <a href="https://adminlte.io" target="_blank">Aplicación desarrollada con plantilla AdminLTE</a>.</strong>
+        </footer> -->
 
     </div>
     <!-- ./wrapper -->
@@ -170,6 +170,11 @@
 
 @section('adminlte_js')
     <script src="{{ asset('vendor/adminlte/dist/js/adminlte.min.js') }}"></script>
+    <script src="{{ asset('/js/icheck.min.js')}}"></script>
+    <script src="{{ asset('/js/custom.js')}}"></script>
+    <script type="text/javascript">
+      var url_global='{{url("/")}}';
+    </script>
     @stack('js')
     @yield('js')
 @stop

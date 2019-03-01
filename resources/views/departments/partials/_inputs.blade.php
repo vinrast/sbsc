@@ -1,5 +1,5 @@
 <div class="form-group {{ $errors->has('name') ? 'has-error' : '' }}">
-  <label for="inputName" class="col-sm-2 control-label">Nombre</label>
+  <label for="inputName" class="col-sm-2 control-label">Nombre*</label>
   <div class="col-sm-10">
     <input type="text" class="form-control" id="inputName" name="name" value="{{ old('name', $department->name) }}" placeholder="Ej. Recursos Humanos">
     @if ($errors->has('name'))

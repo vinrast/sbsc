@@ -11,9 +11,10 @@ body {
 .login-page,
 .register-page {
   background-image: url("{{ asset('/vendor/adminlte/images')}}/{{$selectedBg}}");
-  height: 100vh;
+  height: 100%;
   background-size: cover;
   background-position: center;
+  background-repeat: no-repeat;
 }
 .login-box-body {
   background-color: rgba(248, 248, 248, 0.8);

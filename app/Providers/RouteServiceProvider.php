@@ -38,6 +38,12 @@ class RouteServiceProvider extends ServiceProvider
         $this->mapApiRoutes();
 
         $this->mapWebRoutes();
+
+        $this->mapDepartmentsRoutes();
+
+        $this->mapRolesRoutes();
+
+        $this->mapUsersRoutes();
     }
 
     /**
@@ -69,5 +75,25 @@ class RouteServiceProvider extends ServiceProvider
              ->group(base_path('routes/api.php'));
     }
 
+    protected function mapDepartmentsRoutes()
+    {
+        Route::middleware('web')
+             ->namespace($this->namespace)
+             ->group(base_path('routes/departments.php'));
+    }
+
+    protected function mapRolesRoutes()
+    {
+        Route::middleware('web')
+             ->namespace($this->namespace)
+             ->group(base_path('routes/roles.php'));
+    }
+
+    protected function mapUsersRoutes()
+    {
+        Route::middleware('web')
+             ->namespace($this->namespace)
+             ->group(base_path('routes/users.php'));
+    }
 
 }

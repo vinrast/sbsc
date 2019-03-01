@@ -42,7 +42,7 @@
 				<a href="#"><i class="fa fa-twitter"></i></a>
 				<a href="#"><i class="fa fa-instagram"></i></a>
 			</div>
-			<a href="{{route('home')}}">Volver a sitio seguro</a>
+			<a href="{{ route('home') }}">Volver a sitio seguro</a>
 		</div>
 	</div>
 

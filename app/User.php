@@ -8,6 +8,7 @@ use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use App\Models\Department;
+use Caffeinated\Shinobi\Models\Role;
 use Carbon\Carbon;
 
 class User extends Authenticatable
@@ -15,7 +16,7 @@ class User extends Authenticatable
     use Notifiable, ShinobiTrait, Translator;
 
     protected $fillable = [
-        'name', 'email', 'password',
+        'name', 'email', 'password','department_id','avatar'
     ];
 
     protected $hidden = [
@@ -34,5 +35,16 @@ class User extends Authenticatable
     public function department()
     {
       return $this->belongsTo(Department::class);
+    }
+
+    public function roles()
+    {
+      return $this->belongsToMany(Role::class, 'role_user', 'user_id', 'role_id');
+    }
+
+    public function scopeSearch($query,$data){
+      return $query->where('name','like','%'.$data.'%')
+                   ->orwhere('email','like','%'.$data.'%')
+                   ->orderBy('id','DES');
     }
 }

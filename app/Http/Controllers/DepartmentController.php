@@ -18,9 +18,7 @@ class DepartmentController extends Controller
 
     public function index()
     {
-        $departments = Department::paginate(30);
-
-        return view('departments.index', compact('departments'));
+        return view('departments.index', compact('departments'))->with(['departments' => Department::orderBy('id','DES')->paginate(10)]);
     }
 
     public function create()
@@ -34,10 +32,10 @@ class DepartmentController extends Controller
 
       Department::create([
         'name'        => ucwords(mb_strtolower( $request->name )),
-        'description' => ucfirst(mb_strtolower( $request->description ))
+        'description' => $request->description ? ucfirst(mb_strtolower( $request->description )): null
       ]);
 
-      return back()->with('message', "El departamento {$request->name} fue cargado correctamente");
+      return back()->with('message', "El departamento <strong> {$request->name} </strong> fue cargado correctamente");
     }
 
     public function edit(Department $department)
@@ -55,16 +53,20 @@ class DepartmentController extends Controller
              ],
             'description' => 'nullable'
         ]);
+        
         $department->update([
           'name'        => ucwords(mb_strtolower( $request->name )),
-          'description' => ucfirst(mb_strtolower( $request->description ) )
+          'description' => $request->description ? ucfirst(mb_strtolower( $request->description )): null
         ]);
 
-        return redirect()->route('departamentos')->with('message',"Departamento {$department->name} actualizado con exito");
+        return redirect()->route('departamentos')->with('message',"Departamento <strong>{$department->name}</strong> actualizado con exito");
     }
 
     public function destroy(Department $department)
     {
-        //
+        $name = Department::findOrFail($department->id);
+        $name->delete();
+
+        return back()->with('message', "El departamento <strong>{$department->name}</strong> fue borrado correctamente");
     }
 }
