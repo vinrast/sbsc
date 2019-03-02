@@ -20,24 +20,26 @@
     @endif
   </div>
 </div>
-<div class="form-group {{ $errors->has('password') ? 'has-error' : '' }}">
-  <label for="inputPassword" class="col-sm-3 control-label">Contraseña *</label>
-  <div class="col-sm-9">
-    <input type="password" class="form-control" id="inputPassword" name="password" value="" placeholder="">
-    @if ($errors->has('password'))
-        <span class="help-block">
-            <strong>{{ $errors->first('password') }}</strong>
-        </span>
-    @endif
+@if($show_PASS)
+  <div class="form-group {{ $errors->has('password') ? 'has-error' : '' }}">
+    <label for="inputPassword" class="col-sm-3 control-label">Contraseña</label>
+    <div class="col-sm-9">
+      <input type="password" class="form-control" id="inputPassword" name="password" value="" placeholder="">
+      @if ($errors->has('password'))
+          <span class="help-block">
+              <strong>{{ $errors->first('password') }}</strong>
+          </span>
+      @endif
+    </div>
   </div>
-</div>
+@endif
 <div class="form-group {{ $errors->has('department_id') ? 'has-error' : '' }}">
-  <label for="inputDepartment_id" class="col-sm-3 control-label">Departamento *</label>
+  <label for="inputDepartment_id" class="col-sm-3 control-label">Departamento*</label>
   <div class="col-sm-9">
     <select class="form-control select2" id="inputDepartment_id" name="department_id">
         <option value="">Seleccione una opción</option>
       @foreach($departments as $department)
-        <option value="{{ $department->id }}" {{ (old('department_id')==$department->id) ? 'selected': ''}}>{{ $department->name }}</option>
+        <option value="{{ $department->id }}" {{ old('department_id',$user->department_id) == $department->id ?  'selected': ''}}>{{ $department->name }}</option>
       @endforeach
     </select>
     @if ($errors->has('department_id'))
@@ -53,7 +55,9 @@
     <select class="form-control select2" id="inputRole_id" name="role_id">
       <option value="">Seleccione una opción</option>
       @foreach($roles as $role)
-        <option value="{{ $role->id }}" {{ (old('role_id')==$role->id) ? 'selected': ''}}>{{ $role->name }}</option>
+        @foreach($user->roles as $relation_role)
+          <option value="{{ $role->id }}" {{ old('role_id', $relation_role->id) == $role->id ? 'selected': ''}}>{{ $role->name }}</option>
+        @endforeach
       @endforeach
     </select>
     @if ($errors->has('role_id'))

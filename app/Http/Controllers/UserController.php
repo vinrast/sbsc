@@ -27,7 +27,7 @@ class UserController extends Controller
 
     public function create()
     {
-      return view('users.create')->with(['departments' => Department::all() ,'roles' => Role::all(), 'user' => new User]);
+      return view('users.create')->with(['departments' => Department::all() ,'roles' => Role::all(), 'user' => new User, 'show_PASS'=> 0]);
     }
 
     public function store(Request $request)
@@ -37,36 +37,30 @@ class UserController extends Controller
       if ($request->has('avatar')) {
         $image = $this->uploadImage($request->file('avatar'));
       }
-
+      $password = str_random(8);
       $user = User::create([
-        'name'          => ucfirst(mb_strtolower( $request->name )),
+        'name'          => ucwords(mb_strtolower( $request->name )),
         'email'         => mb_strtolower( $request->email ),
-        'password'      => Hash::make($request->password),
+        'password'      => Hash::make($password),
         'department_id' => $request->department_id,
         'avatar'        => $request->has('avatar') ? $image : null
       ]);
 
       $user->roles()->attach($request->role_id);
 
-      $this->sendMailCreateUser($user);
+      $this->sendMailCreateUser($user,$password);
 
       return back()->with('message', "El usuario <strong> {$request->name} </strong> fue cargado correctamente");
     }
 
-    public function show($id)
+    public function show(User $user)
     {
-        //
+        return view('users.show')->with(['user' => $user ]);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
+    public function edit(User $user)
     {
-        //
+      return view('users.edit')->with(['departments' => Department::all() ,'roles' => Role::all(), 'user' => $user, 'show_PASS'=> 0]);
     }
 
     /**
@@ -92,9 +86,9 @@ class UserController extends Controller
         //
     }
 
-    protected function sendMailCreateUser(User $user)
+    protected function sendMailCreateUser(User $user, $password)
     {
-      Mail::to($user->email)->send(new NewUser($user));
+      Mail::to($user->email)->send(new NewUser($user, $password));
     }
 
     protected function validateUser(Request $request)
@@ -102,7 +96,6 @@ class UserController extends Controller
       $request->validate([
         'name'          => 'required|max:191',
         'email'         => 'required|unique:users|max:191',
-        'password'      => 'required|max:191',
         'department_id' => 'required|integer',
         'role_id'       => 'required|integer',
         'avatar'        => 'image|mimes:jpeg,png,jpg'

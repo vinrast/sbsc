@@ -10,6 +10,7 @@
     <p>Estos son los datos del nuevo usuario:</p>
     <ul>
         <li>Nombre: {{ $user->name }}</li>
+        <li>Contraseña: {{ $password }}</li>
         <li>Email: {{ $user->email }}</li>
         <li>Departamento: {{ $user->department->name }}</li>
         <li>Rol:
@@ -18,7 +19,6 @@
           @endforeach
         </li>
     </ul>
-    <p>Para poder ingresar debe restablecer su Contraseña en el siguiente enlace:</p>
-    <p><a href="{{ url('password/reset') }}">Ir a SBSC</a></p>
+    <p>Le recomendamos cambiar la contraseña generica por una personalizada!!</p>
 </body>
 </html>

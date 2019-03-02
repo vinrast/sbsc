@@ -13,15 +13,17 @@ class NewUser extends Mailable
     use Queueable, SerializesModels;
 
     public $user;
+    public $password;
 
-    public function __construct(User $user)
+    public function __construct(User $user,$password)
     {
       $this->user = $user;
+      $this->password = $password;
     }
 
     public function build()
     {
-        return $this->view('mails.new-user')
+        return $this->markdown('mails.new-user')
                     ->subject('Registro de nuevo usuario');
     }
 }

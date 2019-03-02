@@ -1,3 +1,6 @@
 .wrapper {
-    background-color:#ecf0f5 !important;
+  background-color:#ecf0f5 !important;
+}
+.img-detail{
+  width: 100%;
 }
