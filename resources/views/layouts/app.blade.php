@@ -64,7 +64,7 @@
                         <li class="dropdown user user-menu">
                           <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                             <img src="{{ asset('vendor/adminlte/images')}}/{{ auth()->user()->avatar ?? 'placeholder_user.png' }}" class="user-image" alt="User Image">
-                            <span class="hidden-xs">Vincen Santaella</span>
+                            <span class="hidden-xs">{{ auth()->user()->name }}</span>
                           </a>
                           <ul class="dropdown-menu">
                             <!-- User image -->
@@ -79,7 +79,7 @@
                             <!-- Menu Footer-->
                             <li class="user-footer">
                               <div class="pull-left">
-                                <a href="#" class="btn btn-default btn-flat"><i class="fa fa-fw fa-user"></i>Perfíl</a>
+                                <a href="{{ route('mi-perfil') }}" class="btn btn-default btn-flat"><i class="fa fa-fw fa-user"></i>Perfíl</a>
                               </div>
                               <div class="pull-right">
                                 @if(config('adminlte.logout_method') == 'GET' || !config('adminlte.logout_method') && version_compare(\Illuminate\Foundation\Application::VERSION, '5.3.0', '<'))

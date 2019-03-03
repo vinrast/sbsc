@@ -1,16 +1,7 @@
 
 $(document).ready(function() {
 
-  $('input').on('ifClicked', function(event){
-    if ($(this).hasClass('special')) {
-      if($(this).prop('checked')){
-        $(this).prop('checked',false);
-        $(this).parent().removeClass('checked');
-      }
-    }
-  });
-
-  $('body').on( 'click', '.delete-role-btn', function(event) {
+  $('body').on( 'click', '.delete-user-btn', function(event) {
     event.preventDefault();
     var id = $(this).data('id');
     $('#register').val(id);

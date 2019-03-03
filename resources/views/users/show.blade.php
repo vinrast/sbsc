@@ -26,11 +26,9 @@
       </div>
       <div class="col-sm-4">
         <b>Rol</b>
-        @foreach($user->roles as $user)
-          <p>{{ $user->name }}</p>
-        @endforeach
+        <p>{{ $user->roles->first()->name }}</p>
         <b>Fecha de Registro</b>
-        <p>{{ $user->created_at->format('d-m-Y') }}</p>
+        <p>{{ $user->created_at->format('d-M-Y') }}</p>
       </div>
     </div>
     <div class="box-footer">

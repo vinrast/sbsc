@@ -33,40 +33,40 @@
     </div>
   </div>
 @endif
-<div class="form-group {{ $errors->has('department_id') ? 'has-error' : '' }}">
-  <label for="inputDepartment_id" class="col-sm-3 control-label">Departamento*</label>
-  <div class="col-sm-9">
-    <select class="form-control select2" id="inputDepartment_id" name="department_id">
-        <option value="">Seleccione una opción</option>
-      @foreach($departments as $department)
-        <option value="{{ $department->id }}" {{ old('department_id',$user->department_id) == $department->id ?  'selected': ''}}>{{ $department->name }}</option>
-      @endforeach
-    </select>
-    @if ($errors->has('department_id'))
-        <span class="help-block">
-            <strong>{{ $errors->first('department_id') }}</strong>
-        </span>
-    @endif
-  </div>
-</div>
-<div class="form-group {{ $errors->has('role_id') ? 'has-error' : '' }}">
-  <label for="inputRole_id" class="col-sm-3 control-label">Rol *</label>
-  <div class="col-sm-9">
-    <select class="form-control select2" id="inputRole_id" name="role_id">
-      <option value="">Seleccione una opción</option>
-      @foreach($roles as $role)
-        @foreach($user->roles as $relation_role)
-          <option value="{{ $role->id }}" {{ old('role_id', $relation_role->id) == $role->id ? 'selected': ''}}>{{ $role->name }}</option>
+@can('ajustes.usuarios.editar')
+  <div class="form-group {{ $errors->has('department_id') ? 'has-error' : '' }}">
+    <label for="inputDepartment_id" class="col-sm-3 control-label">Departamento*</label>
+    <div class="col-sm-9">
+      <select class="form-control select2" id="inputDepartment_id" name="department_id">
+          <option value="">Seleccione una opción</option>
+        @foreach($departments as $department)
+          <option value="{{ $department->id }}" {{ old('department_id',$user->department_id) == $department->id ?  'selected': ''}}>{{ $department->name }}</option>
         @endforeach
-      @endforeach
-    </select>
-    @if ($errors->has('role_id'))
-        <span class="help-block">
-            <strong>{{ $errors->first('role_id') }}</strong>
-        </span>
-    @endif
+      </select>
+      @if ($errors->has('department_id'))
+          <span class="help-block">
+              <strong>{{ $errors->first('department_id') }}</strong>
+          </span>
+      @endif
+    </div>
   </div>
-</div>
+  <div class="form-group {{ $errors->has('role_id') ? 'has-error' : '' }}">
+    <label for="inputRole_id" class="col-sm-3 control-label">Rol *</label>
+    <div class="col-sm-9">
+      <select class="form-control select2" id="inputRole_id" name="role_id">
+        <option value="">Seleccione una opción</option>
+        @foreach($roles as $role)
+            <option value="{{ $role->id }}" {{ old('role_id', optional($user->roles->first())->id) == $role->id ? 'selected': ''}}>{{ $role->name }}</option>
+        @endforeach
+      </select>
+      @if ($errors->has('role_id'))
+          <span class="help-block">
+              <strong>{{ $errors->first('role_id') }}</strong>
+          </span>
+      @endif
+    </div>
+  </div>
+@endcan
 <div class="form-group {{ $errors->has('avatar') ? 'has-error' : '' }}">
   <label for="inputAvatar" class="col-sm-3 control-label">Avatar</label>
   <div class="col-sm-9">
@@ -75,7 +75,6 @@
            id="inputAvatar"
            name="avatar"
            accept="image/png, .jpeg, .jpg ">
-
      @if ($errors->has('avatar'))
          <span class="help-block">
              <strong>{{ $errors->first('avatar') }}</strong>
@@ -85,7 +84,9 @@
 </div>
 <!-- /.box-body -->
 <div class="box-footer">
-  <button type="button" onclick="back()" class="btn btn-default btn-flat ">Volver</button>
-  <button type="submit" class="btn btn-success btn-flat pull-right" name="button"> Guardar</button>
+  @if(!$show_PASS)
+    <button type="button" onclick="back()" class="btn btn-default btn-flat ">Volver</button>
+  @endif
+  <button type="submit" class="btn btn-success btn-flat pull-right" > Guardar</button>
 </div>
 <!-- /.box-footer -->

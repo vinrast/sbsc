@@ -1,5 +1,8 @@
 <?php
 
+Route::get('/mi-perfil','UserController@profile')->name('mi-perfil');
+Route::post('actualizar/mi-perfil/{user}','UserController@updateProfile')->name('actualizar.mi-perfil');
+
 Route::middleware(['auth'])->prefix('ajustes/usuarios')->group(function() {
 
   Route::get('/','UserController@index')->name('usuarios')
@@ -21,4 +24,5 @@ Route::middleware(['auth'])->prefix('ajustes/usuarios')->group(function() {
 
   Route::get('eliminar/{user}','UserController@destroy')->name('usuarios.eliminar')
         ->middleware('permission:ajustes.usuarios.eliminar');
+
 });
