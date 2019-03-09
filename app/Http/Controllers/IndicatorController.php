@@ -3,81 +3,40 @@
 namespace App\Http\Controllers;
 
 use App\Models\Indicator;
+use App\Models\Taxonomy;
 use Illuminate\Http\Request;
+use App\Http\Traits\IndicatorsLimit;
 
 class IndicatorController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
+
+  use IndicatorsLimit;
+
+    public function index(Request $request)
     {
-        //
+      if (!$request->has('search')) {
+        return view('indicators.index')->with(['indicators'=> Indicator::where('taxonomy_id',1)->paginate(10), 'perspectives' => Taxonomy::perspectives() ]);
+      }
+      $indicators = Indicator::search($request->search)->paginate(10);
+      $indicators->withPath("?search={$request->search}");
+      return view('indicators.index')->with(['indicators'=> $indicators, 'search' => $request->search, 'perspectives' => Taxonomy::perspectives() ]);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
+    public function test(Indicator $indicator)
     {
-        //
+      //dd($this->getLimits($indicator));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Indicator  $indicator
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Indicator $indicator)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Indicator  $indicator
-     * @return \Illuminate\Http\Response
-     */
     public function edit(Indicator $indicator)
     {
         //
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Indicator  $indicator
-     * @return \Illuminate\Http\Response
-     */
     public function update(Request $request, Indicator $indicator)
     {
         //
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\Indicator  $indicator
-     * @return \Illuminate\Http\Response
-     */
     public function destroy(Indicator $indicator)
     {
         //

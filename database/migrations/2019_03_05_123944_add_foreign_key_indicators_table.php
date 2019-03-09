@@ -14,7 +14,7 @@ class AddForeignKeyIndicatorsTable extends Migration
     public function up()
     {
         Schema::table('indicators', function (Blueprint $table) {
-            $table->foreign('perspective_id')->references('id')->on('perspectives');
+            $table->foreign('taxonomy_id')->references('id')->on('taxonomies');
         });
     }
 
@@ -26,7 +26,7 @@ class AddForeignKeyIndicatorsTable extends Migration
     public function down()
     {
         Schema::table('indicators', function (Blueprint $table) {
-            $table->dropForeign(['perspective_id']);
+            $table->dropForeign(['taxonomy_id']);
         });
     }
 }

@@ -44,6 +44,8 @@ class RouteServiceProvider extends ServiceProvider
         $this->mapRolesRoutes();
 
         $this->mapUsersRoutes();
+
+        $this->mapIndicatorsRoutes();
     }
 
     /**
@@ -95,5 +97,13 @@ class RouteServiceProvider extends ServiceProvider
              ->namespace($this->namespace)
              ->group(base_path('routes/users.php'));
     }
+
+    protected function mapIndicatorsRoutes()
+    {
+        Route::middleware('web')
+             ->namespace($this->namespace)
+             ->group(base_path('routes/indicators.php'));
+    }
+
 
 }

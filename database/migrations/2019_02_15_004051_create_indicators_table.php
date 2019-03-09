@@ -17,9 +17,10 @@ class CreateIndicatorsTable extends Migration
             $table->increments('id');
             $table->string('name');
             $table->text('target');
-            $table->integer('performance_threshold');
-            $table->enum('is_active',[0,1]);
-            $table->unsignedInteger('perspective_id');
+            $table->decimal('performance_threshold', 10, 2)->nullable();
+            $table->integer('is_active');
+            $table->integer('graphic_type')->nullable();
+            $table->unsignedInteger('taxonomy_id');
             $table->timestamps();
         });
     }

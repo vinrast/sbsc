@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreatePerspectivesTable extends Migration
+class CreateTaxonomiesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,10 +13,10 @@ class CreatePerspectivesTable extends Migration
      */
     public function up()
     {
-        Schema::create('perspectives', function (Blueprint $table) {
+        Schema::create('taxonomies', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name');
-            $table->string('description')->nullable();
+            $table->integer('family');
             $table->timestamps();
         });
     }
@@ -28,6 +28,6 @@ class CreatePerspectivesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('perspectives');
+        Schema::dropIfExists('taxonomies');
     }
 }
