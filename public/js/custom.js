@@ -1,9 +1,11 @@
 
  $(document).ready(function() {
 
-   /*
-   * init pluggin iCheck
-   */
+   $.ajaxSetup({
+     headers: {
+        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+      }
+   });
 
    $('input').iCheck({
        checkboxClass: 'icheckbox_flat-green',

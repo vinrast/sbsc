@@ -142,12 +142,14 @@ return [
     */
 
     'attributes' => [
-      'name'          => 'nombre',
-      'description'   => 'descripción',
-      'permissions'   => 'permisos',
-      'department_id' => 'departamento',
-      'role_id'       => 'rol',
-      'password'      => 'contraseña'
+      'name'                  => 'nombre',
+      'description'           => 'descripción',
+      'permissions'           => 'permisos',
+      'department_id'         => 'departamento',
+      'role_id'               => 'rol',
+      'password'              => 'contraseña',
+      'target'                => 'objetivo',
+      'performance_threshold' => 'Umbral de desempeño'
     ],
 
 ];

@@ -1,9 +1,12 @@
 @extends('adminlte::master')
 
 @section('adminlte_css')
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <link rel="stylesheet"
           href="{{ asset('vendor/adminlte/dist/css/skins/skin-' . config('adminlte.skin', 'blue') . '.min.css')}} ">
     <link href="{{ asset('/css/icheck-green.css')}}" rel="stylesheet">
+    <link href="{{ asset('/css/noty.css')}}" rel="stylesheet">
+    <link href="{{ asset('/css/theme-noty/nest.css')}}" rel="stylesheet">
     <link href="{{ asset('/css/custom.css')}}" rel="stylesheet">
     @stack('css')
     @yield('css')
@@ -171,10 +174,13 @@
 @section('adminlte_js')
     <script src="{{ asset('vendor/adminlte/dist/js/adminlte.min.js') }}"></script>
     <script src="{{ asset('/js/icheck.min.js')}}"></script>
+    <script src="{{ asset('/js/noty.js')}}" type="text/javascript"></script>
     <script src="{{ asset('/js/custom.js')}}"></script>
     <script type="text/javascript">
       var url_global='{{url("/")}}';
     </script>
     @stack('js')
     @yield('js')
+    <script src="{{ asset('/js/settings-noty.js')}}"></script>
+
 @stop

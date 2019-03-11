@@ -109,6 +109,12 @@ class PermissionsTableSeeder extends Seeder
         ]);
 
         Permission::create([
+          'name'        => 'Activar Indicadores',
+          'slug'        => 'ajustes.indicadores.activar',
+          'description' => 'Activar o desactivar los KPI que estaran disponibles dentro de la aplicacion'
+        ]);
+
+        Permission::create([
           'name'        => 'Clientes',
           'slug'        => 'clientes',
           'description' => 'Cargar los valores de los indicadores de la perspectiva finanzas'

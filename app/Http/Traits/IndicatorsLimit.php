@@ -66,7 +66,6 @@ trait IndicatorsLimit
   public function limits($indicator,$percent)
   {
     $threshold = $indicator->performance_threshold == 0 ? 1 : $indicator->performance_threshold;
-    return number_format($threshold * $percent / 100,2);
+    return number_format($threshold * $percent / 100,2,'.','');
   }
-
 }

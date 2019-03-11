@@ -12,14 +12,14 @@
       <!-- small box -->
       <div class="small-box bg-aqua">
         <div class="inner">
-          <h3>150</h3>
+          <h3>{{ $departments->count() }}</h3>
 
           <p>Departamentos</p>
         </div>
         <div class="icon">
           <i class="ion ion-ios-paper"></i>
         </div>
-        <a href="#" class="small-box-footer"> Ir a departamentos <i class="fa fa-arrow-circle-right"></i></a>
+        <a href="{{ route('departamentos') }}" class="small-box-footer"> Ir a departamentos <i class="fa fa-arrow-circle-right"></i></a>
       </div>
     </div>
     <!-- ./col -->
@@ -42,14 +42,14 @@
       <!-- small box -->
       <div class="small-box bg-yellow">
         <div class="inner">
-          <h3>44</h3>
+          <h3>{{ $users->count() }}</h3>
 
           <p>Usuarios Registrados</p>
         </div>
         <div class="icon">
           <i class="ion ion-person-add"></i>
         </div>
-        <a href="#" class="small-box-footer">Ir a lista de usuarios <i class="fa fa-arrow-circle-right"></i></a>
+        <a href="{{ route('usuarios') }}" class="small-box-footer">Ir a lista de usuarios <i class="fa fa-arrow-circle-right"></i></a>
       </div>
     </div>
     <!-- ./col -->
@@ -57,14 +57,14 @@
       <!-- small box -->
       <div class="small-box bg-red">
         <div class="inner">
-          <h3>65</h3>
+          <h3>{{ $indicators->count() }}</h3>
 
           <p>Indicadores Disponibles</p>
         </div>
         <div class="icon">
           <i class="ion ion-speedometer"></i>
         </div>
-        <a href="#" class="small-box-footer">Ir a Indicadores <i class="fa fa-arrow-circle-right"></i></a>
+        <a href="{{ route('indicadores') }}" class="small-box-footer">Ir a Indicadores <i class="fa fa-arrow-circle-right"></i></a>
       </div>
     </div>
     <!-- ./col -->

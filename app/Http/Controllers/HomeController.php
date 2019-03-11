@@ -3,6 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Indicator;
+use App\User;
+use App\Models\Department;
 
 class HomeController extends Controller
 {
@@ -23,6 +26,10 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('home');
+        return view('home')->with([
+                                    'indicators'  => Indicator::where('is_active',1)->get(),
+                                    'users'       => User::all(),
+                                    'departments' => Department::all(),
+                                  ]);
     }
 }

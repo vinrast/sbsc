@@ -28,21 +28,14 @@
         </form>
       </div>
     </div>
-    @if(session()->has('message'))
-      <div class="alert alert-success alert-dismissible">
-        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-        <h4><i class="icon fa fa-check"></i>Operación Exitosa!</h4>
-        <p>{!! session()->get('message') !!}.</p>
-      </div>
-    @endif
     <div>
-      @include('modals/delete')
+      @include('indicators/modals/edit-indicator')
     </div>
     <div class="box box-info">
       <div class="box-header">
         <h3 class="box-title"></h3>
         @can('ajustes.usuarios.crear')
-          <button type="button" class="btn btn-success btn-flat pull-right" onclick="create()"> Nuevo</button>
+          <!-- <button type="button" class="btn btn-success btn-flat pull-right" onclick="create()"> Nuevo</button> -->
         @endcan
       </div>
       <!-- /.box-header -->
@@ -65,21 +58,20 @@
               @foreach($indicators as $indicator)
                 <tr>
                   <td> {{ $indicator->name }} </td>
-                  <td> {{ $indicator->target }} </td>
+                  <td id="target{{$indicator->id}}"> {{ $indicator->target }} </td>
                   <td> {{ $indicator->taxonomy->name }} </td>
-                  <td> {{ $indicator->threshold }} </td>
-                  <td><span class="label bg-red">{{$indicator->graphic_type ? '<=' : '>' }} {{ $indicator->limit->negative }}</td>
-                  <td><span class="label bg-yellow">{{$indicator->graphic_type ? '>' : '>' }} {{ $indicator->limit->average }}</td>
-                  <td><span class="label bg-green">{{$indicator->graphic_type ? '>' : '<=' }} {{ $indicator->limit->positive }}</td>
-
+                  <td id="threshold{{$indicator->id}}"> {{ $indicator->threshold }} </td>
+                  <td><span class="label bg-red" id="negative{{$indicator->id}}">{{$indicator->graphic_type ? '<=' : '>' }} {{ $indicator->limit->negative }}</td>
+                  <td><span class="label bg-yellow" id="average{{$indicator->id}}">{{$indicator->graphic_type ? '>' : '>' }} {{ $indicator->limit->average }}</td>
+                  <td><span class="label bg-green" id="positive{{$indicator->id}}">{{$indicator->graphic_type ? '>' : '<=' }} {{ $indicator->limit->positive }}</td>
                   <td class="text-center">
-                    @can('ajustes.usuarios.editar')
-                      <a href="{{ route('indicadores.editar',[$indicator->id]) }}"><i class="fa fa-pencil fa-lg"></i></a>
+                    @can('ajustes.indicadores.editar')
+                      <a href="#" class="indicators-edit" data-id="{{$indicator->id}}" ><i class="fa fa-pencil fa-lg"></i></a>
                     @endcan
                   </td>
                   <td>
-                    @can('ajustes.indicadores.eliminar')
-                      <input type="checkbox" id="is_active{{$indicator->id}}" name="is_active" value="{{$indicator->id}}" class="switch-input">
+                    @can('ajustes.indicadores.activar')
+                      <input type="checkbox" id="{{$indicator->id}}" class="is_active" name="is_active" value="{{$indicator->is_active}}" {{$indicator->is_active ? 'checked': ''}} class="switch-input">
                     @endcan
                   </td>
                 </tr>
