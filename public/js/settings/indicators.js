@@ -57,9 +57,9 @@ $(document).ready(function() {
         $('.help-block').hide();
         $(`#target${respuesta.id}`).html(respuesta.target);
         $(`#threshold${respuesta.id}`).html(respuesta.threshold);
-        $(`#negative${respuesta.id}`).html(respuesta.limit.negative);
-        $(`#average${respuesta.id}`).html(respuesta.limit.average);
-        $(`#positive${respuesta.id}`).html(respuesta.limit.positive);
+        $(`#negative${respuesta.id}`).html(`${ respuesta.graphic_type ? '<=' : '>' } ${ respuesta.limit.negative }`);
+        $(`#average${respuesta.id}`).html(`${ respuesta.graphic_type ? '>' : '>' } ${ respuesta.limit.average }`);
+        $(`#positive${respuesta.id}`).html(`${ respuesta.graphic_type ? '>' : '<=' } ${ respuesta.limit.positive }`);
         new Noty({
             type: 'success',
             text: `<strong> Operación Exitosa!!!</strong> <br> El indicador <strong>${respuesta.name}</strong> fue actualizado correctamente.`,

@@ -10,12 +10,31 @@
 <div class="row">
   <div class="col-xs-12">
     <div class="box">
+      <div class="box-body">
+        <form class="form-horizontal" action="{{ route('clientes') }}" method="get">
+          <div class="form-group">
+            <div class="col-sm-4 col-sm-offset-4">
+              <select class="form-control select2" id="year" name="search">
+                @foreach($years as $year)
+                  <option value="{{ $year }}" {{ isset($search) && $year == $search ?  'selected': '' }}>{{ $year }}</option>
+                @endforeach
+              </select>
+            </div>
+            <div class="col-sm-2">
+                <button type="submit" class="btn btn-primary btn-flat"> <i class="fa fa-search"> </i></button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+    <div class="box box-info">
       <div class="box-header">
         <h3 class="box-title"></h3>
       </div>
       <!-- /.box-header -->
       <div class="box-body">
-        <table id="example2" class="table table-bordered table-hover">
+        <div class="table-responsive">
+          <table id="example2" class="table table-bordered table-hover">
           <thead>
             <tr>
               <th width="200px">Indicador</th>
@@ -34,23 +53,41 @@
             </tr>
           </thead>
           <tbody>
-            @for($i=1; $i<6; $i++)
-                @php $b=2;
-                @endphp
-                <td>Indicador de Gestion</td>
-                @for($a=1; $a<5; $a++)
-                @php $c=2;
-                @endphp
-                  @if($b == $c)
-                    <td>
-                        {{$a}}
-                    </td>
-                  @endif
+            @foreach($indicators as $indicator)
+              <tr>
+                <td>{{ $indicator->name }}</td>
+                @for($a=1; $a<13; $a++)
+                  <td class="month" data-indicator="{{ $indicator->id }}" data-month='{{ strlen($a) == 1 ? "0{$a}": $a }}'>
+                  @foreach( $registers as $register)
+                    @if( $register->indicator_id == $indicator->id && $register->date->format('m') == $a)
+                      <center>
+                        @if( $register->indicator->graphic_type )
+                          @if( $register->result_format <= $register->limit->negative )
+                            <span class="label bg-red">{{ $register->result_format }}</span>
+                          @elseif($register->result_format > $register->limit->average && $register->result_format <= $register->limit->positive  )
+                            <span class="label bg-yellow">{{ $register->result_format }}</span>
+                          @else
+                            <span class="label bg-green">{{ $register->result_format }}</span>
+                          @endif
+                        @else
+                          @if( $register->result_format > $register->limit->negative )
+                            <span class="label bg-red">{{ $register->result_format }}</span>
+                          @elseif($register->result_format > $register->limit->average && $register->result_format <= $register->limit->positive  )
+                            <span class="label bg-yellow">{{ $register->result_format }}</span>
+                          @else
+                            <span class="label bg-green">{{ $register->result_format }}</span>
+                          @endif
+                        @endif
+                      </center>
+                    @endif
+                  @endforeach
+                  </td>
                 @endfor
               </tr>
-            @endfor
+            @endforeach
           </tbody>
         </table>
+        </div>
       </div>
       <!-- /.box-body -->
     </div>
@@ -58,10 +95,6 @@
 </div>
 @stop
 
-@section('css')
-    <link rel="stylesheet" href="/css/admin_custom.css">
-@stop
-
 @section('js')
-    <script> console.log('Hi!'); </script>
+    <script type="text/javascript" src="{{ asset('js/perspectives.js') }}"></script>
 @stop

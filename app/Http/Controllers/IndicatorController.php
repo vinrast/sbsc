@@ -24,7 +24,7 @@ class IndicatorController extends Controller
 
     public function test()
     {
-      dd((fmod(1500.00, 1) !== 0.00) ? 1500.00 : (int)1500.00);
+      // dd((fmod(1500.00, 1) !== 0.00) ? 1500.00 : (int)1500.00);
     }
 
     public function edit(Indicator $indicator)

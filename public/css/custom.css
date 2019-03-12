@@ -4,3 +4,11 @@
 .img-detail{
   width: 100%;
 }
+
+.month{
+  cursor: pointer;
+}
+
+.month:hover{
+  background-color: #bebebe;
+}

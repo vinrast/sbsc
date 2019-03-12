@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Taxonomy;
 use App\Http\Traits\IndicatorsLimit;
+use App\Models\HistoryIndicator;
 
 class Indicator extends Model
 {
@@ -23,6 +24,11 @@ class Indicator extends Model
     return $this->belongsTo(Taxonomy::class);
   }
 
+  public function historyIndicators()
+  {
+    return $this->hasMany(HistoryIndicator::class);
+  }
+
   public function getLimitAttribute()
   {
     return $this->getLimits($this)->getData();
@@ -38,5 +44,10 @@ class Indicator extends Model
       $query = $query->where('taxonomy_id', $data);
     }
     return $query;
+  }
+
+  public function scopeforPerspective($query, $perspective){
+    return $query->where('taxonomy_id', $perspective)
+                 ->where('is_active', 1);
   }
 }

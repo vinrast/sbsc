@@ -13,7 +13,15 @@
    });
 
    $('.select2').select2({
-      placeholder: 'Seleccione una opción'
+      placeholder: 'Seleccione una opción',
+      "language": {
+       "noResults": function(){
+           return "No existen coincidencias con la búsqueda";
+           }
+       },
+        escapeMarkup: function (markup) {
+            return markup;
+        }
     });
 
  });
