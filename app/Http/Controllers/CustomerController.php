@@ -7,10 +7,11 @@ use App\Models\Indicator;
 use App\Models\HistoryIndicator;
 use Carbon\Carbon;
 use App\Http\Traits\IndicatorTools;
+use App\Http\Traits\Translator;
 
 class CustomerController extends Controller
 {
-  use IndicatorTools;
+  use IndicatorTools, Translator;
 
     public function index(Request $request)
     {
@@ -23,9 +24,9 @@ class CustomerController extends Controller
     }
 
 
-    public function store(Request $request)
+    public function new(Request $request, Indicator $indicator)
     {
-        //
+      return [$indicator->name, $this->monthTranslator($request->month)];
     }
 
     public function show($id)

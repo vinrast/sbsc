@@ -11,6 +11,9 @@
 @include('perspectives.customers.modals.contracts-lost')
 @include('perspectives.customers.modals.delayed-deliveries')
 @include('perspectives.customers.modals.increase-in-billing')
+@include('perspectives.customers.modals.customer-rejection')
+@include('perspectives.customers.modals.customer-satisfaction')
+@include('perspectives.customers.modals.price-variation')
 <div class="row">
   <div class="col-xs-12">
     <div class="box">

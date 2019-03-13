@@ -25,3 +25,11 @@
     });
 
  });
+
+ function displayError()
+ {
+   new Noty({
+       type: 'error',
+       text: '<strong> Error!!! <br> Algo sucedio en el servidor.</strong> <br> Intentelo de nuevo mas tarde.',
+   }).show();
+ }
