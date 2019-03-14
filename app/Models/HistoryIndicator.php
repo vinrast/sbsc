@@ -26,7 +26,7 @@ class HistoryIndicator extends Model
 
   public function getLimitAttribute()
   {
-    return $this->getLimits($this->indicator)->getData();
+    return $this->getLimits($this->performance_threshold, $this->indicator_id)->getData();
   }
 
   public function getThresholdFormatAttribute()

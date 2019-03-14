@@ -33,3 +33,13 @@
        text: '<strong> Error!!! <br> Algo sucedio en el servidor.</strong> <br> Intentelo de nuevo mas tarde.',
    }).show();
  }
+
+ function showPreload()
+ {
+   $('#preloader').show();
+ }
+
+ function hidePreload()
+ {
+   $('#preloader').hide();
+ }

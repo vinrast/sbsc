@@ -5,12 +5,9 @@ namespace App\Http\Controllers;
 use App\Models\Indicator;
 use App\Models\Taxonomy;
 use Illuminate\Http\Request;
-use App\Http\Traits\IndicatorsLimit;
 
 class IndicatorController extends Controller
 {
-
-  use IndicatorsLimit;
 
     public function index(Request $request)
     {
@@ -49,10 +46,10 @@ class IndicatorController extends Controller
 
     public function active(Request $request, Indicator $indicator)
     {
-        $indicator->update([
+        $update = $indicator->update([
           'is_active' => !$request->val,
         ]);
 
-        return 'actualizado!!';
+        return response()->json((int)!$request->val);
     }
 }

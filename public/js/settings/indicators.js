@@ -1,6 +1,5 @@
 
 $(document).ready(function() {
-
   $('input').on('ifClicked', function(event){
     event.preventDefault();
     var id = $(this).attr('id');
@@ -11,10 +10,14 @@ $(document).ready(function() {
       url:url,
       type:'post',
       context: $(this),
+      beforeSend:showPreload(),
       success:function(respuesta){
+        hidePreload();
+        $(this).val(respuesta);
         $(this).iCheck('update');
       },
       error: function() {
+        hidePreload();
         $(this).iCheck('toggle');
         displayError();
       }
@@ -28,7 +31,9 @@ $(document).ready(function() {
     $.ajax({
       url:url,
       type:'get',
+      beforeSend:showPreload(),
       success:function(respuesta){
+        hidePreload();
         $('.modal-title').html(`Editar Indicador <strong>"${respuesta.name}"</strong>`);
         $('#register').val(respuesta.id);
         $('#inputTarget').val(respuesta.target);
@@ -38,6 +43,7 @@ $(document).ready(function() {
         $('#modal-edit-indicator').modal('show');
       },
       error: function() {
+        hidePreload();
         displayError();
       }
     });
@@ -52,7 +58,9 @@ $(document).ready(function() {
       data:formData,
       url:url,
       type:'post',
+      beforeSend:showPreload(),
       success:function(respuesta){
+        hidePreload();
         $('.form-group').removeClass('has-error');
         $('.help-block').hide();
         $(`#target${respuesta.id}`).html(respuesta.target);
@@ -66,6 +74,7 @@ $(document).ready(function() {
         }).show();
       },
       error: function(respuesta) {
+        hidePreload();
         if( respuesta.status === 422 ) {
              if ( getAttr(respuesta.responseJSON.errors, 'target')) {
                $('#container-target-help').addClass('has-error');

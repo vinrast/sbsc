@@ -151,6 +151,9 @@
             </section>
 
             <!-- Main content -->
+            <div id="preloader">
+            		<div id="status">&nbsp;</div>
+            </div>
             <section class="content">
 
                 @yield('content')

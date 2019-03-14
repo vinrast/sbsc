@@ -13,7 +13,9 @@ $(document).ready(function() {
       data:{ 'month':month },
       url:url,
       type:'post',
+      beforeSend: showPreload(),
       success:function(respuesta){
+        hidePreload();
         var year = $('#year').children("option:selected").val();
         $('.modal-title').html(`<center><strong class="red">"${respuesta[0]}" <br> (${respuesta[1]} - ${year})</strong></center>`);
         // $('#register').val(respuesta.id);
@@ -24,6 +26,7 @@ $(document).ready(function() {
         $(getModal(id)).modal('show');
       },
       error: function(respuesta) {
+        hidePreload();
         if (respuesta.status === 403) {
           new Noty({
               type: 'info',

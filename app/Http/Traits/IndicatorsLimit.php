@@ -44,14 +44,14 @@ trait IndicatorsLimit
       (object)['negative' => 68.33, 'average' => 68.33, 'positive' => 100],
     ];
 
-    return $percents[$indicator_id-1];
+    return $percents[$indicator_id - 1];
   }
 
-  public function getLimits($indicator)
+  public function getLimits($performance_threshold, $indicator_id)
   {
-    $negative = $this->limits($indicator, $this->getPercents($indicator->id)->negative);
-    $average  = $this->limits($indicator, $this->getPercents($indicator->id)->average);
-    $positive = $this->limits($indicator, $this->getPercents($indicator->id)->positive);
+    $negative = $this->limits($performance_threshold, $this->getPercents($indicator_id)->negative);
+    $average  = $this->limits($performance_threshold, $this->getPercents($indicator_id)->average);
+    $positive = $this->limits($performance_threshold, $this->getPercents($indicator_id)->positive);
 
     return response()->json(['negative' => $this->getInteger($negative),
                              'average' => $this->getInteger($average),
@@ -63,9 +63,9 @@ trait IndicatorsLimit
     return (fmod($value, 1) !== 0.00) ? $value : (int)$value;
   }
 
-  public function limits($indicator,$percent)
+  public function limits($performance_threshold,$percent)
   {
-    $threshold = $indicator->performance_threshold == 0 ? 1 : $indicator->performance_threshold;
+    $threshold = $performance_threshold == 0 ? 1 : $performance_threshold;
     return number_format($threshold * $percent / 100,2,'.','');
   }
 }

@@ -31,7 +31,7 @@ class Indicator extends Model
 
   public function getLimitAttribute()
   {
-    return $this->getLimits($this)->getData();
+    return $this->getLimits($this->performance_threshold, $this->id)->getData();
   }
 
   public function getThresholdAttribute()
