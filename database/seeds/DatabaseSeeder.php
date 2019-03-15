@@ -18,5 +18,6 @@ class DatabaseSeeder extends Seeder
         $this->call(LinksTableSeeder::class);
         $this->call(TaxonomiesTableSeeder::class);
         $this->call(IndicatorsTableSeeder::class);
+        $this->call(HistoryIndicatorsTableSeeder::class);
     }
 }

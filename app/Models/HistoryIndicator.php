@@ -13,7 +13,7 @@ class HistoryIndicator extends Model
   protected $table = 'history_indicators';
 
   protected $fillable = [
-    'id', 'indicator_id', 'date', 'performance_threshold'
+    'id', 'indicator_id', 'date', 'performance_threshold', 'result'
   ];
   protected $dates = ['created_at', 'updated_at','date'];
 

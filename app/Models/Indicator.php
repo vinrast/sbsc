@@ -14,7 +14,8 @@ class Indicator extends Model
   protected $table = 'indicators';
 
   protected $fillable = [
-    'name', 'target', 'performance_threshold', 'is_active', 'taxonomy_id', 'graphic_type'
+    'name', 'target', 'performance_threshold', 'is_active', 'taxonomy_id',
+    'graphic_type', 'inputs_type', 'formula_type'
   ];
 
   protected $appends = ['limit','threshold'];

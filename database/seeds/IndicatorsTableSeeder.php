@@ -16,6 +16,7 @@ class IndicatorsTableSeeder extends Seeder
           'performance_threshold' => 6,
           'is_active'             => 1,
           'taxonomy_id'           => 1,
+          'inputs_type'           => 1,
           'graphic_type'          => 1
         ]);
 
@@ -25,6 +26,7 @@ class IndicatorsTableSeeder extends Seeder
           'performance_threshold' => 0,
           'is_active'             => 1,
           'taxonomy_id'           => 1,
+          'inputs_type'           => 2,
           'graphic_type'          => 0
         ]);
 
@@ -34,6 +36,7 @@ class IndicatorsTableSeeder extends Seeder
           'performance_threshold' => 0,
           'is_active'             => 1,
           'taxonomy_id'           => 1,
+          'inputs_type'           => 1,
           'graphic_type'          => 0
         ]);
 
@@ -43,6 +46,7 @@ class IndicatorsTableSeeder extends Seeder
           'performance_threshold' => 5,
           'is_active'             => 1,
           'taxonomy_id'           => 1,
+          'inputs_type'           => 1,
           'graphic_type'          => 1
         ]);
 
@@ -52,6 +56,7 @@ class IndicatorsTableSeeder extends Seeder
           'performance_threshold' => 0,
           'is_active'             => 1,
           'taxonomy_id'           => 1,
+          'inputs_type'           => 1,
           'graphic_type'          => 0
         ]);
 
@@ -61,6 +66,7 @@ class IndicatorsTableSeeder extends Seeder
           'performance_threshold' => 60,
           'is_active'             => 1,
           'taxonomy_id'           => 1,
+          'inputs_type'           => 1,
           'graphic_type'          => 1
         ]);
 
@@ -70,6 +76,7 @@ class IndicatorsTableSeeder extends Seeder
           'performance_threshold' => -2,
           'is_active'             => 1,
           'taxonomy_id'           => 1,
+          'inputs_type'           => 1,
           'graphic_type'          => 1
         ]);
 

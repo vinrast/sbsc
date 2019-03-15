@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\HistoryIndicator;
 use App\Models\Indicator;
 use App\Models\Taxonomy;
 use Illuminate\Http\Request;
@@ -21,7 +22,10 @@ class IndicatorController extends Controller
 
     public function test()
     {
-      // dd((fmod(1500.00, 1) !== 0.00) ? 1500.00 : (int)1500.00);
+      // HistoryIndicator::updateOrCreate(
+      //               ['indicator_id' => 1, 'date' => '2019-07-01'],
+      //               ['performance_threshold' => 21, 'result' => 25]
+      //             );
     }
 
     public function edit(Indicator $indicator)
@@ -32,7 +36,7 @@ class IndicatorController extends Controller
     public function update(Request $request, Indicator $indicator)
     {
       $request->validate([
-          'target'                => 'required',
+          'target'                => 'required|numeric',
           'performance_threshold' => 'required|numeric'
       ]);
 

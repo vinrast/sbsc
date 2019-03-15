@@ -90,7 +90,7 @@ return [
     ],
     'not_in'               => 'El campo :attribute seleccionado es inválido.',
     'not_regex'            => 'El formato del campo :attribute es inválido.',
-	'numeric'              => 'El campo :attribute debe ser un número.',
+    'numeric'              => 'El campo :attribute debe ser un número.',
     'present'              => 'El campo :attribute debe estar presente.',
     'regex'                => 'El formato del campo :attribute es inválido.',
     'required'             => 'El campo :attribute es obligatorio.',
@@ -127,6 +127,14 @@ return [
     'custom' => [
         'permissions' => [
             'permissions.required' => 'Debe marcar al menos un permiso',
+        ],
+        'input_1' => [
+          'required' => 'Campo obligatorio',
+          'numeric'  => 'Campo debe ser de tipo numérico',
+        ],
+        'input_2' => [
+          'required' => 'Campo obligatorio',
+          'numeric'  => 'Campo debe ser de tipo numérico',
         ],
     ],
 

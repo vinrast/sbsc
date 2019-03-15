@@ -64,7 +64,7 @@
               <tr>
                 <td>{{ $indicator->name }}</td>
                 @for($a=1; $a<13; $a++)
-                  <td class="month" data-indicator="{{ $indicator->id }}" data-month='{{ strlen($a) == 1 ? "0{$a}": $a }}'>
+                  <td class="month" id="{{$indicator->id}}-{{ strlen($a) == 1 ? "0{$a}": $a }}" data-indicator="{{ $indicator->id }}" data-month='{{ strlen($a) == 1 ? "0{$a}": $a }}'>
                     @foreach( $registers as $register)
                       @php
                         $negative = $register->indicator->graphic_type ? '<=' : '>';
@@ -75,7 +75,7 @@
                                   Positivo: <span class='label bg-green'> {$positive} ". $register->limit->positive . "</span> <br>";
                       @endphp
                       @if( $register->indicator_id == $indicator->id && $register->date->format('m') == $a)
-                        <center data-toggle="tooltip" data-placement="right" data-html="true" @can('ajustes.indicadores') title='{{ $title }}' @endcan>
+                        <center data-toggle="tooltip" data-placement="left" data-html="true" @can('ajustes.indicadores') title='{{ $title }}' @endcan>
                           @if( $register->indicator->graphic_type )
                             @if( $register->result_format <= $register->limit->negative )
                               <span class="label bg-red">{{ $register->result_format }}</span>

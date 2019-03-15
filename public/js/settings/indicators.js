@@ -16,10 +16,10 @@ $(document).ready(function() {
         $(this).val(respuesta);
         $(this).iCheck('update');
       },
-      error: function() {
+      error: function(respuesta) {
         hidePreload();
         $(this).iCheck('toggle');
-        displayError();
+        errors(respuesta);
       }
     });
   });
@@ -42,9 +42,9 @@ $(document).ready(function() {
         $('.help-block').hide();
         $('#modal-edit-indicator').modal('show');
       },
-      error: function() {
+      error: function(respuesta) {
         hidePreload();
-        displayError();
+        errors(respuesta);
       }
     });
   });
@@ -75,6 +75,8 @@ $(document).ready(function() {
       },
       error: function(respuesta) {
         hidePreload();
+        $('.form-group').removeClass('has-error');
+        $('.help-block').hide();
         if( respuesta.status === 422 ) {
              if ( getAttr(respuesta.responseJSON.errors, 'target')) {
                $('#container-target-help').addClass('has-error');
@@ -86,24 +88,21 @@ $(document).ready(function() {
                $('.threshold-help').show().html(`<strong>${ respuesta.responseJSON.errors.performance_threshold[0] }</strong>`);
              }
 
-          }
-          else{
+        } else if (respuesta.status === 419) {
+             new Noty({
+                 type: 'info',
+                 text: `<strong> Sesión Agotada!!!</strong> <br> Su Sesión ha caducado
+                        debe iniciar sesión nuevamente para poder realizar la acción.`,
+                 timeout:4000,
+             }).show();
+
+             setTimeout(function(){ location.reload() }, 4200);
+
+        } else{
               displayError();
-          }
+        }
       }
     });
   });
 
 });
-
-function getAttr(obj, keyToFind){
-  var i = 1, key;
-
-  for (key in obj) {
-    if (key == keyToFind) {
-        return i;
-    }
-    i++;
-  }
-  return null;
-}
