@@ -14,6 +14,8 @@
 @include('perspectives.customers.modals.customer-rejection')
 @include('perspectives.customers.modals.customer-satisfaction')
 @include('perspectives.customers.modals.price-variation')
+
+@include('modals.delete')
 <div class="row">
   <div class="col-xs-12">
     <div class="box">
@@ -64,35 +66,11 @@
               <tr>
                 <td>{{ $indicator->name }}</td>
                 @for($a=1; $a<13; $a++)
-                  <td class="month" id="{{$indicator->id}}-{{ strlen($a) == 1 ? "0{$a}": $a }}" data-indicator="{{ $indicator->id }}" data-month='{{ strlen($a) == 1 ? "0{$a}": $a }}'>
+                  <td class="month"  id="{{$indicator->id}}-{{ strlen($a) == 1 ? "0{$a}": $a }}"   data-indicator="{{ $indicator->id }}"  @can('ajustes.indicadores') data-tooltip="true" @endcan data-month='{{ strlen($a) == 1 ? "0{$a}": $a }}'>
                     @foreach( $registers as $register)
-                      @php
-                        $negative = $register->indicator->graphic_type ? '<=' : '>';
-                        $positive = $register->indicator->graphic_type ? '>' : '<=';
-                        $title = "Umbral: {$register->threshold_format} <br>
-                                  Negativo: <span class='label bg-red'> {$negative} ". $register->limit->negative . "</span> <br>
-                                  Esperado: <span class='label bg-yellow'> > ". $register->limit->average . "</span> <br>
-                                  Positivo: <span class='label bg-green'> {$positive} ". $register->limit->positive . "</span> <br>";
-                      @endphp
                       @if( $register->indicator_id == $indicator->id && $register->date->format('m') == $a)
-                        <center data-toggle="tooltip" data-placement="left" data-html="true" @can('ajustes.indicadores') title='{{ $title }}' @endcan>
-                          @if( $register->indicator->graphic_type )
-                            @if( $register->result_format <= $register->limit->negative )
-                              <span class="label bg-red">{{ $register->result_format }}</span>
-                            @elseif($register->result_format > $register->limit->average && $register->result_format <= $register->limit->positive  )
-                              <span class="label bg-yellow">{{ $register->result_format }}</span>
-                            @else
-                              <span class="label bg-green">{{ $register->result_format }}</span>
-                            @endif
-                          @else
-                            @if( $register->result_format > $register->limit->negative )
-                              <span class="label bg-red">{{ $register->result_format }}</span>
-                            @elseif($register->result_format > $register->limit->average && $register->result_format <= $register->limit->positive  )
-                              <span class="label bg-yellow">{{ $register->result_format }}</span>
-                            @else
-                              <span class="label bg-green">{{ $register->result_format }}</span>
-                            @endif
-                          @endif
+                        <center  data-placement="left" data-html="true" @can('ajustes.indicadores') data-toggle="tooltip"  title='{{ $register->title }}' @endcan>
+                        {!! $register->label !!}
                         </center>
                       @endif
                     @endforeach

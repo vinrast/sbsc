@@ -61,7 +61,7 @@
  {
    $('.form-group').removeClass('has-error');
    $('.help-block').hide();
-   
+
    if( respuesta.status === 422 ) {
         if ( getAttr(respuesta.responseJSON.errors, 'input_1')) {
           $('.container-input_1-help').addClass('has-error');
@@ -90,6 +90,14 @@
          text: `<strong> Acción no permitida!!!</strong> <br> Su rol
                 no tiene permiso para realizar esta accion, pongase
                 en contacto con el administrador del sistema.`,
+         timeout:4000,
+     }).show();
+   }
+   else if (respuesta.status === 412) {
+     new Noty({
+         type: 'info',
+         text: `<strong> Acción no permitida!!!</strong> <br> Esta seleccionando fechas
+                mayores a la fecha actual. Intente con fechas anteriores`,
          timeout:4000,
      }).show();
    }

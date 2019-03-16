@@ -14,7 +14,7 @@ class AddForeignKeyHistoryIndicators extends Migration
     public function up()
     {
         Schema::table('history_indicators', function (Blueprint $table) {
-            $table->foreign('indicator_id')->references('id')->on('history_indicators');
+            $table->foreign('indicator_id')->references('id')->on('indicators');
         });
     }
 

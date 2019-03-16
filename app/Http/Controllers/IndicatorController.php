@@ -36,7 +36,7 @@ class IndicatorController extends Controller
     public function update(Request $request, Indicator $indicator)
     {
       $request->validate([
-          'target'                => 'required|numeric',
+          'target'                => 'required',
           'performance_threshold' => 'required|numeric'
       ]);
 

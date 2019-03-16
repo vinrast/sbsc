@@ -60,7 +60,7 @@ trait IndicatorsLimit
 
   public function getInteger($value)
   {
-    return (fmod($value, 1) !== 0.00) ? $value : (int)$value;
+    return (fmod($value, 1) !== 0.00) ? number_format($value, 2, '.','') : (int)$value;
   }
 
   public function limits($performance_threshold,$percent)

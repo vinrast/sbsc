@@ -25,6 +25,13 @@ class CustomerController extends Controller
 
     public function new(Request $request, Indicator $indicator)
     {
+      $time = strtotime("{$request->year}-{$request->month}-01");
+      $newformat = date('Y-m',$time);
+
+      if ($newformat > date('Y-m')) {
+        abort(412, 'date higher than current date');
+      }
+
       return [$indicator->name, $this->monthTranslator($request->month),
               "{$request->year}-{$request->month}-01", $indicator->id,
               $indicator->performance_threshold, $indicator->inputs_type
@@ -34,13 +41,35 @@ class CustomerController extends Controller
     public function storage(Request $request)
     {
       $this->validateData($request);
+      $query = HistoryIndicator::where('indicator_id', $request->indicator)
+                                  ->where('date', $request->date)
+                                  ->first();
 
-      $register = HistoryIndicator::updateOrCreate(
-                    ['indicator_id' => $request->indicator, 'date' => $request->date],
-                    ['performance_threshold' => $request->threshold, 'result' => $this->getResult($request)]
-                  );
+      $register = $this->updateOrCreate($query, $request);
 
-      dd($register);
+      return [$register, $register->date->format('m'),$this->monthTranslator($register->date->format('m'))];
+    }
+
+    public function updateOrCreate($query, $request)
+    {
+      $result = $this->getResult($request);
+
+      if ($query) {
+         $query->update([
+           'result' => $result
+         ]);
+
+        $query = $query;
+      } else {
+        $query = HistoryIndicator::create([
+          'indicator_id' => $request->indicator,
+          'date' => $request->date,
+          'performance_threshold' => $request->threshold,
+          'result' => $result
+        ]);
+      }
+
+      return $query;
     }
 
     public function getResult($request)
@@ -82,8 +111,24 @@ class CustomerController extends Controller
     public function validateData(Request $request)
     {
       $request->validate([
-        'input_1' => 'required|numeric',
-        'input_2' => $request->has('input_2') ? 'required|numeric' : 'nullable',
+        'input_1' => 'required|numeric|min:0',
+        'input_2' => $request->has('input_2') ? 'required|numeric|min:0' : 'nullable',
       ]);
+    }
+
+    public function search(Request $request)
+    {
+      $register = HistoryIndicator::where('date', "{$request->year}-{$request->month}-01")
+                                  ->where('indicator_id', $request->indicator)
+                                  ->first();
+
+      return [$register->id, $register->indicator->name, $this->monthTranslator($register->date->format('m'))];
+    }
+
+    public function destroy(HistoryIndicator $indicator)
+    {
+      HistoryIndicator::destroy($indicator->id);
+
+      return [$indicator->indicator->name, $this->monthTranslator($indicator->date->format('m'))];
     }
 }

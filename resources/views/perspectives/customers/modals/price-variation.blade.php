@@ -16,7 +16,7 @@
             <div class="form-group container-input_1-help">
               <div class="col-sm-10 col-sm-offset-1">
                 <label for="averagePriceCompetition">Precio Promedio Competencia*</label>
-                <input type="number" class="form-control" id="averagePriceCompetition" name="input_1" step=".01" value="" placeholder="Precio Promedio Competencia">
+                <input type="number" class="form-control" id="averagePriceCompetition" min="0" name="input_1" step=".01" value="" placeholder="Precio Promedio Competencia">
                 <span  style="display:none;" class="help-block input_1-help">
                     <strong>error 1</strong>
                 </span>
@@ -25,7 +25,7 @@
             <div class="form-group container-input_2-help">
               <div class="col-sm-10 col-sm-offset-1">
                 <label for="averagePrice">Precio Promedio*</label>
-                <input type="number" class="form-control" id="averagePrice" name="input_2" value="" step=".01" placeholder="Precio Promedio Servicios">
+                <input type="number" class="form-control" id="averagePrice" min="0" name="input_2" value="" step=".01" placeholder="Precio Promedio Servicios">
                 <span style="display:none;" class="help-block input_2-help">
                     <strong>error 2</strong>
                 </span>

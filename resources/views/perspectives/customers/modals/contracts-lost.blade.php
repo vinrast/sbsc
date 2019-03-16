@@ -16,7 +16,7 @@
             <div class="form-group container-input_1-help">
               <div class="col-sm-10 col-sm-offset-1">
                 <label for="contracts">Número de Contratos*</label>
-                <input type="number" class="form-control" id="contracts" name="input_1" value="" placeholder="Cantidad de contratos perdidos">
+                <input type="number" class="form-control" id="contracts" name="input_1" min="0" value="" placeholder="Cantidad de contratos perdidos">
                 <span style="display:none;" class="help-block input_1-help">
                     <strong>error 1</strong>
                 </span>

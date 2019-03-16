@@ -81,7 +81,7 @@ class LinksTableSeeder extends Seeder
         'icon'          => 'fa fa-university',
         'family'        => '1',
         'parent'        => 0,
-        'permission_id' => 18
+        'permission_id' => 21
       ]);
 
       SidebarLink::create([
@@ -90,7 +90,7 @@ class LinksTableSeeder extends Seeder
         'icon'          => 'fa fa-spinner',
         'family'        => '1',
         'parent'        => 0,
-        'permission_id' => 19
+        'permission_id' => 24
       ]);
 
       SidebarLink::create([
@@ -99,7 +99,7 @@ class LinksTableSeeder extends Seeder
         'icon'          => 'fa fa-book',
         'family'        => '1',
         'parent'        => 0,
-        'permission_id' => 20
+        'permission_id' => 27
       ]);
 
       SidebarLink::create([
@@ -108,7 +108,7 @@ class LinksTableSeeder extends Seeder
         'icon'          => 'fa fa-search',
         'family'        => '1',
         'parent'        => 0,
-        'permission_id' => 21
+        'permission_id' => 30
       ]);
     }
 }

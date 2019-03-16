@@ -117,7 +117,19 @@ class PermissionsTableSeeder extends Seeder
         Permission::create([
           'name'        => 'Clientes',
           'slug'        => 'clientes',
-          'description' => 'Cargar los valores de los indicadores de la perspectiva finanzas'
+          'description' => 'Cargar los valores de los indicadores de la perspectiva Clientes'
+        ]);
+
+        Permission::create([
+          'name'        => 'Nuevo Indicador Cliente',
+          'slug'        => 'clientes.nuevo',
+          'description' => 'Cargar los valores de los indicadores de la perspectiva Clientes'
+        ]);
+
+        Permission::create([
+          'name'        => 'Borrar Indicador Cliente',
+          'slug'        => 'clientes.borrar',
+          'description' => 'Borrar los valores de los indicadores de la perspectiva Clientes'
         ]);
 
         Permission::create([
@@ -127,15 +139,51 @@ class PermissionsTableSeeder extends Seeder
         ]);
 
         Permission::create([
+          'name'        => 'Nuevo Indicador finanzas',
+          'slug'        => 'finanzas.nuevo',
+          'description' => 'Cargar los valores de los indicadores de la perspectiva finanzass'
+        ]);
+
+        Permission::create([
+          'name'        => 'Borrar Indicador finanzas',
+          'slug'        => 'finanzas.borrar',
+          'description' => 'Borrar los valores de los indicadores de la perspectiva finanzass'
+        ]);
+
+        Permission::create([
           'name'        => 'Procesos Internos',
           'slug'        => 'procesos-internos',
           'description' => 'Cargar los valores de los indicadores de la perspectiva procesos internos'
         ]);
 
         Permission::create([
+          'name'        => 'Nuevo Indicador Procesos Internos',
+          'slug'        => 'procesos-internos.nuevo',
+          'description' => 'Cargar los valores de los indicadores de la perspectiva Procesos Internos'
+        ]);
+
+        Permission::create([
+          'name'        => 'Borrar Indicador Procesos Internos',
+          'slug'        => 'procesos-internos.borrar',
+          'description' => 'Borrar los valores de los indicadores de la perspectiva Procesos Internos'
+        ]);
+
+        Permission::create([
           'name'        => 'Aprendizaje y Conocimiento',
           'slug'        => 'aprendizaje',
           'description' => 'Cargar los valores de los indicadores de la perspectiva aprendizaje y conocimiento'
+        ]);
+
+        Permission::create([
+          'name'        => 'Nuevo Indicador Aprendizaje',
+          'slug'        => 'aprendizaje.nuevo',
+          'description' => 'Cargar los valores de los indicadores de la perspectiva Aprendizaje y Conocimiento'
+        ]);
+
+        Permission::create([
+          'name'        => 'Borrar Indicador Aprendizaje',
+          'slug'        => 'aprendizaje.borrar',
+          'description' => 'Borrar los valores de los indicadores de la perspectiva Aprendizaje y Conocimiento'
         ]);
 
         Permission::create([

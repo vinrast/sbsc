@@ -7,11 +7,12 @@
           <h4 class="modal-title"></h4>
         </div>
         <div class="modal-body">
+          <input type="hidden" id="date-delete" value="">
           <input type="hidden" id="register" value="">
           <center><p id="message-delete"></p></center>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-default pull-left" data-dismiss="modal"><strong>No,</strong> Continuar aca</button>
+          <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Continuar aca</button>
           <button type="button" id="confirm-delete" class="btn btn-danger"><strong>Sí,</strong> Borrar</button>
         </div>
       </div>
