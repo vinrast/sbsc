@@ -9,7 +9,6 @@
         <form class="form-horizontal save-form">
           <div class="modal-body">
             <input type="hidden" name="formula_type" value="3">
-            <input type="hidden" class="inputs_type" name="inputs_type" value="">
             <input type="hidden" class="indicator" name="indicator" value="">
             <input type="hidden" class="date" name="date" value="">
             <input type="hidden" class="threshold" name="threshold" value="">

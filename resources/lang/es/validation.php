@@ -138,6 +138,11 @@ return [
           'numeric'  => 'Campo debe ser de tipo numérico',
           'min'  => 'El valor ingresado debe ser mayor o igual a 0',
         ],
+        'input_3' => [
+          'required' => 'Campo obligatorio',
+          'numeric'  => 'Campo debe ser de tipo numérico',
+          'min'  => 'El valor ingresado debe ser mayor o igual a 0',
+        ],
     ],
 
     /*

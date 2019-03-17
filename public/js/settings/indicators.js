@@ -1,5 +1,12 @@
 
 $(document).ready(function() {
+
+  $('#perspective').change(function(event){
+    event.preventDefault();
+    var perspective = $('#perspective').children("option:selected").val();
+    location.href = `${url_global}/ajustes/indicadores?search=${perspective}`;
+  });
+
   $('input').on('ifClicked', function(event){
     event.preventDefault();
     var id = $(this).attr('id');

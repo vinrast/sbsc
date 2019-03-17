@@ -7,7 +7,7 @@ use App\Models\Indicator;
 use App\Models\HistoryIndicator;
 use App\Http\Traits\CommonIndicators;
 
-class CustomerController extends Controller
+class FinanceController extends Controller
 {
   use CommonIndicators {
     index as indexTrait;
@@ -15,6 +15,6 @@ class CustomerController extends Controller
 
   public function index(Request $request)
   {
-    return $this->indexTrait($request, "perspectives.customers.index", 1);
+    return $this->indexTrait($request, "perspectives.finance.index", 3);
   }
 }

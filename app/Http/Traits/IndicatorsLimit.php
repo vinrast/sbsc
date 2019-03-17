@@ -40,7 +40,7 @@ trait IndicatorsLimit
       (object)['negative' => 200, 'average' => 100, 'positive' => 100],
       (object)['negative' => 200, 'average' => 100, 'positive' => 100],
       (object)['negative' => 200, 'average' => 100, 'positive' => 100],
-      (object)['negative' => 200, 'average' => 100, 'positive' => 100],
+      (object)['negative' => 68.33, 'average' => 68.33, 'positive' => 100],
       (object)['negative' => 68.33, 'average' => 68.33, 'positive' => 100],
     ];
 

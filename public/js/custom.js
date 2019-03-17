@@ -73,6 +73,11 @@
           $('.input_2-help').show().html(`<strong>${ respuesta.responseJSON.errors.input_2[0] }</strong>`);
         }
 
+        if ( getAttr(respuesta.responseJSON.errors, 'input_3')) {
+          $('.container-input_3-help').addClass('has-error');
+          $('.input_3-help').show().html(`<strong>${ respuesta.responseJSON.errors.input_3[0] }</strong>`);
+        }
+
    }
    else if (respuesta.status === 419) {
      new Noty({

@@ -1,13 +1,20 @@
 
 $(document).ready(function() {
   $('[data-toggle="tooltip"]').tooltip();
+  var perspective = $('#perspective-id').val();
+
+  $('#year').change(function(event){
+    event.preventDefault();
+    var year = $('#year').children("option:selected").val();
+    location.href = `${url_global}/${perspective}?search=${year}`;
+  });
 
   $('body').on( 'click', '.month', function(event) {
     event.preventDefault();
     var id = $(this).data('indicator');
     var month = $(this).data('month');
     var year = $('#year').children("option:selected").val();
-    var url = url_global+"/clientes/nuevo/"+id;
+    var url = `${url_global}/${perspective}/nuevo/${id}`;
     $.ajax({
       data:{ 'month':month, 'year':year },
       url:url,
@@ -17,10 +24,10 @@ $(document).ready(function() {
         hidePreload();
         $("input[name=input_1]").val('');
         $("input[name=input_2]").val('');
+        $("input[name=input_3]").val('');
         $('.form-group').removeClass('has-error');
         $('.help-block').hide();
         $('.modal-title').html(`<center><strong class="red">"${respuesta[0]}" <br> (${respuesta[1]} - ${year})</strong></center>`);
-        $('.inputs_type').val(respuesta[5]);
         $('.indicator').val(respuesta[4]);
         $('.date').val(respuesta[2]);
         $('.threshold').val(respuesta[4]);
@@ -41,7 +48,7 @@ $(document).ready(function() {
     event.preventDefault();
     var indicator = $('.indicator').val();
     var formData = $(this).serializeArray();
-    var url = url_global+"/clientes/almacenar/"+indicator;
+    var url = `${url_global}/${perspective}/almacenar/${indicator}`;
     $.ajax({
       data:formData,
       url:url,
@@ -94,7 +101,7 @@ $(document).ready(function() {
       var month   = $(this).data('month');
       var indicator   = $(this).data('indicator');
       var year = $('#year').children("option:selected").val();
-      var url = url_global+"/clientes/buscar-registro";
+      var url = `${url_global}/${perspective}/buscar-registro`;
       $.ajax({
         data:{month:month, year:year, indicator:indicator},
         url:url,
@@ -121,7 +128,7 @@ $(document).ready(function() {
 
   $('body').on( 'click', '#confirm-delete', function(event) {
     var id=$('#register').val();
-    var url= url_global+"/clientes/borrar/"+id;
+    var url= `${url_global}/${perspective}/borrar/${id}`;
     $.ajax({
       url:url,
       type:'post',
@@ -146,17 +153,23 @@ $(document).ready(function() {
 });
 
 
-
-
-
-
 function getModal(indicator)
 {
   var modals = {
     1: '#modal-new-custommer', 2: '#modal-contracts-lost',
     3: '#modal-delayed-deliveries', 4:'#modal-increase-in-billing',
     5: '#modal-customer-rejection', 6: '#modal-customer-satisfaction',
-    7: '#modal-price-variation'
+    7: '#modal-price-variation', 8: '#modal-add-services',
+    9: '#modal-creativity', 10: '#modal-claims',
+    11:'#modal-quality', 12: '#modal-customer-satisfaction',
+    13:'#modal-absenteeism', 14:'#modal-employee-satisfaction',
+    15:'#modal-roe', 16:'#modal-current-liquidity',
+    17:'#modal-impact-of-expenses', 18:'#modal-asset-indebtedness',
+    19:'#modal-equity-indebtedness', 20:'#modal-net-profitability',
+    21:'#modal-appeceament', 22:'#modal-credit-liquidity',
+    23:'#modal-projects-after', 24:'#modal-damaged-machines',
+    25:'#modal-incidents', 26:'#modal-deliveries-after',
+    27:'#modal-deals', 28:'#modal-machine-performance'
   };
 
   return modals[indicator];

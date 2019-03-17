@@ -48,6 +48,12 @@ class RouteServiceProvider extends ServiceProvider
         $this->mapIndicatorsRoutes();
 
         $this->mapCustomersRoutes();
+
+        $this->mapFinanceRoutes();
+
+        $this->mapInternalProcessesRoutes();
+
+        $this->mapLearningRoutes();
     }
 
     /**
@@ -114,5 +120,25 @@ class RouteServiceProvider extends ServiceProvider
              ->group(base_path('routes/customers.php'));
     }
 
+    protected function mapFinanceRoutes()
+    {
+        Route::middleware('web')
+             ->namespace($this->namespace)
+             ->group(base_path('routes/finance.php'));
+    }
+
+    protected function mapInternalProcessesRoutes()
+    {
+        Route::middleware('web')
+             ->namespace($this->namespace)
+             ->group(base_path('routes/internal.php'));
+    }
+
+    protected function mapLearningRoutes()
+    {
+        Route::middleware('web')
+             ->namespace($this->namespace)
+             ->group(base_path('routes/learning.php'));
+    }
 
 }

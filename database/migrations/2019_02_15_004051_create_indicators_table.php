@@ -19,8 +19,6 @@ class CreateIndicatorsTable extends Migration
             $table->text('target');
             $table->decimal('performance_threshold', 10, 2)->nullable();
             $table->integer('is_active');
-            $table->integer('inputs_type')->nullable();
-            $table->integer('formula_type')->nullable();
             $table->integer('graphic_type')->nullable();
             $table->unsignedInteger('taxonomy_id');
             $table->timestamps();

@@ -21,9 +21,9 @@
                 @endforeach
               </select>
             </div>
-            <div class="col-sm-2">
+            <!-- <div class="col-sm-2">
                 <button type="submit" class="btn btn-primary btn-flat"> <i class="fa fa-search"> </i></button>
-            </div>
+            </div> -->
           </div>
         </form>
       </div>
