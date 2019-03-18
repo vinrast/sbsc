@@ -51,4 +51,9 @@ class Indicator extends Model
     return $query->where('taxonomy_id', $perspective)
                  ->where('is_active', 1);
   }
+
+  public function scopeActives($query){
+    return $query->where('is_active', 1)
+                 ->get();
+  }
 }
