@@ -13,6 +13,7 @@
    });
 
    $('.select2').select2({
+      width: '100%',
       placeholder: 'Seleccione una opción',
       "language": {
        "noResults": function(){
@@ -60,6 +61,7 @@
  function errors(respuesta)
  {
    $('.form-group').removeClass('has-error');
+   $('.container').removeClass('has-error');
    $('.help-block').hide();
 
    if( respuesta.status === 422 ) {

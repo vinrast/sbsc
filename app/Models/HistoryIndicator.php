@@ -41,7 +41,6 @@ class HistoryIndicator extends Model
 
   public function getLabelAttribute()
   {
-    //dd($this->result_format);
     if( $this->indicator->graphic_type )
       if( $this->result_format <= $this->limit->negative ){
         $label = "<span class='label bg-red'>{$this->result_format}</span>";

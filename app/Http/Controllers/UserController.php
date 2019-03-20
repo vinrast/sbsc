@@ -169,7 +169,7 @@ class UserController extends Controller
       $request->validate([
         'name'          => 'required|max:191',
         'email'         => [
-                             $user ? Rule::unique('users')->ignore($user->id) : '',
+                             $user ? Rule::unique('users')->ignore($user->id) : Rule::unique('users'),
                              'required',
                              'max:191'
                            ],
