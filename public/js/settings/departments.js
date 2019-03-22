@@ -12,7 +12,7 @@ $(document).ready(function() {
 
   $('body').on( 'click', '#confirm-delete', function(event) {
     var id=$('#register').val();
-    location.href = url_global+"ajustes/departamentos/eliminar"+id;
+    location.href = url_global+"/ajustes/departamentos/eliminar/"+id;
   })
 });
 

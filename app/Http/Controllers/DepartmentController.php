@@ -5,9 +5,27 @@ namespace App\Http\Controllers;
 use App\Models\Department;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
+use App\Http\Traits\Audit;
 
 class DepartmentController extends Controller
 {
+  use Audit;
+
+    public $user_auth;
+
+    public function __construct()
+    {
+      $this->middleware('auth');
+      $this->middleware(function ($request, $next) {
+        $this->user_auth = Auth::user()->email;
+
+        return $next($request);
+      });
+
+    }
+
     public function validator($request)
     {
       $request->validate([
@@ -23,17 +41,21 @@ class DepartmentController extends Controller
 
     public function create()
     {
-        return view('departments.create', ['department' => new Department() ]);
+      return view('departments.create', ['department' => new Department() ]);
     }
 
     public function store(Request $request)
     {
       $this->validator($request);
+      DB::transaction(function() use ($request) {
+          $register =  Department::create([
+                          'name'        => ucwords(mb_strtolower( $request->name )),
+                          'description' => $request->description ? ucfirst(mb_strtolower( $request->description )): null
+                       ]);
 
-      Department::create([
-        'name'        => ucwords(mb_strtolower( $request->name )),
-        'description' => $request->description ? ucfirst(mb_strtolower( $request->description )): null
-      ]);
+          $this->creations(9, $this->user_auth, $register->name);
+      });
+
 
       return back()->with('message', "El departamento <strong> {$request->name} </strong> fue cargado correctamente");
     }
@@ -53,19 +75,30 @@ class DepartmentController extends Controller
              ],
             'description' => 'nullable'
         ]);
-        
-        $department->update([
-          'name'        => ucwords(mb_strtolower( $request->name )),
-          'description' => $request->description ? ucfirst(mb_strtolower( $request->description )): null
-        ]);
+        DB::transaction(function() use ($request, $department) {
+          $department->update([
+            'name'        => ucwords(mb_strtolower( $request->name )),
+            'description' => $request->description ? ucfirst(mb_strtolower( $request->description )): null
+          ]);
 
+          if ($department->getChanges()) {
+            $this->updates(9, $this->user_auth, $department->name, $department->getChanges());
+          }
+
+
+
+
+        });
         return redirect()->route('departamentos')->with('message',"Departamento <strong>{$department->name}</strong> actualizado con exito");
     }
 
     public function destroy(Department $department)
     {
-        $name = Department::findOrFail($department->id);
-        $name->delete();
+        DB::transaction(function() use ($department) {
+          $name = Department::findOrFail($department->id);
+          $name->delete();
+          $this->destroyed(9, $this->user_auth, $department->name);
+        });
 
         return back()->with('message', "El departamento <strong>{$department->name}</strong> fue borrado correctamente");
     }
