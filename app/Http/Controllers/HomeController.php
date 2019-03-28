@@ -7,6 +7,7 @@ use App\Models\Indicator;
 use App\Models\HistoryIndicator;
 use App\User;
 use App\Models\Department;
+use App\Models\Audit;
 use App\Http\Traits\IndicatorsLimit;
 
 class HomeController extends Controller
@@ -18,11 +19,6 @@ class HomeController extends Controller
         $this->middleware('auth');
     }
 
-    /**
-     * Show the application dashboard.
-     *
-     * @return \Illuminate\Contracts\Support\Renderable
-     */
     public function index()
     {
         return view('home')->with([
@@ -30,6 +26,7 @@ class HomeController extends Controller
                                     'indicatorsAll'  => Indicator::all(),
                                     'users'          => User::all(),
                                     'departments'    => Department::all(),
+                                    'audit'          => Audit::where('action_id', 8)->get()
                                   ]);
     }
 

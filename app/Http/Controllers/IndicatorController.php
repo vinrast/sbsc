@@ -6,9 +6,12 @@ use App\Models\HistoryIndicator;
 use App\Models\Indicator;
 use App\Models\Taxonomy;
 use Illuminate\Http\Request;
+use App\Http\Traits\Audit;
+use Illuminate\Support\Facades\DB;
 
 class IndicatorController extends Controller
 {
+  use Audit;
 
     public function index(Request $request)
     {
@@ -20,13 +23,6 @@ class IndicatorController extends Controller
       return view('indicators.index')->with(['indicators'=> $indicators, 'search' => $request->search, 'perspectives' => Taxonomy::perspectives() ]);
     }
 
-    public function test()
-    {
-      // HistoryIndicator::updateOrCreate(
-      //               ['indicator_id' => 1, 'date' => '2019-07-01'],
-      //               ['performance_threshold' => 21, 'result' => 25]
-      //             );
-    }
 
     public function edit(Indicator $indicator)
     {
@@ -39,11 +35,14 @@ class IndicatorController extends Controller
           'target'                => 'required',
           'performance_threshold' => 'required|numeric'
       ]);
+      DB::transaction(function() use ($request, $indicator) {
+        $this->updateIndicator($request, $indicator);
+        $indicator->update([
+          'target'                => $request->target,
+          'performance_threshold' => $request->performance_threshold
+        ]);
 
-      $indicator->update([
-        'target'                => $request->target,
-        'performance_threshold' => $request->performance_threshold
-      ]);
+      });
 
       return $indicator;
     }

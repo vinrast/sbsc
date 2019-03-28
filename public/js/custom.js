@@ -1,5 +1,19 @@
 
  $(document).ready(function() {
+   $('li').each(function(index) {
+     if ($(this).hasClass('treeview')) {
+       $(this).find('a').each(function(index) {
+         if(window.location.href.indexOf($(this).attr('href')) != -1){
+            $(this).parent().addClass('active');
+            $(this).parent().parent().parent().addClass('active menu-open');
+         }
+       });
+     }else{
+       if(window.location.href.indexOf($(this).find('a').attr('href')) != -1){
+          $(this).find('a').parent().addClass('active');
+       }
+     }
+   });
 
    $.ajaxSetup({
      headers: {

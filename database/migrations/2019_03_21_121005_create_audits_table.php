@@ -15,7 +15,7 @@ class CreateAuditsTable extends Migration
             $table->unsignedInteger('place_id')->nullable();
             $table->string('user');
             $table->string('register')->nullable();
-            $table->string('update_values')->nullable();
+            $table->string('update_values',2000)->nullable();
             $table->timestamps();
         });
     }

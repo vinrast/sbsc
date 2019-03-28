@@ -7,16 +7,18 @@ use App\User;
 use App\Models\Department;
 use Caffeinated\Shinobi\Models\Role;
 use App\Http\Traits\ImageManager;
+use App\Http\Traits\Audit;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\Rule;
 use App\Mail\NewUser;
 use App\Mail\UpdateEmailUser;
 
 class UserController extends Controller
 {
-  use ImageManager;
+  use ImageManager, Audit;
 
     public function index(Request $request)
     {
@@ -44,17 +46,19 @@ class UserController extends Controller
         $image = $this->uploadImage($request->file('avatar'));
       }
       $password = str_random(8);
-      $user = User::create([
-        'name'          => ucwords(mb_strtolower( $request->name )),
-        'email'         => mb_strtolower( $request->email ),
-        'password'      => Hash::make($password),
-        'department_id' => $request->department_id,
-        'avatar'        => $request->has('avatar') ? $image : null
-      ]);
 
-      $user->roles()->attach($request->role_id);
-
-      Mail::to($user->email)->send(new NewUser($user, $password));
+      DB::transaction(function() use ($request, $password) {
+        $user = User::create([
+          'name'          => ucwords(mb_strtolower( $request->name )),
+          'email'         => mb_strtolower( $request->email ),
+          'password'      => Hash::make($password),
+          'department_id' => $request->department_id,
+          'avatar'        => $request->has('avatar') ? $image : null
+        ]);
+        $user->roles()->attach($request->role_id);
+        $this->creations(11, $user->email);
+        Mail::to($user->email)->send(new NewUser($user, $password));
+      });
 
       return back()->with('message', "El usuario <strong> {$request->name} </strong> fue cargado correctamente");
     }
@@ -75,29 +79,29 @@ class UserController extends Controller
     {
         $this->validateUser($request, $user);
 
-
-        if ($request->has('avatar')) {
-          $this->deleteImage($user->avatar);
-          $image = $this->uploadImage($request->file('avatar'));
-          $user->avatar =$image;
-        }
-
-        if($request->email != $user->email){
-          $password = str_random(8);
-          $user->password = Hash::make($password);
-          Mail::to($request->email)->send(new UpdateEmailUser($user, $password, $request->email));
-
-          if ($user->id == $request->user()->id) {
-            $request->session()->flush();
+        DB::transaction(function() use ($request, $user) {
+          $this->updateUser($request, $user);
+          if ($request->has('avatar')) {
+            $this->deleteImage($user->avatar);
+            $user->avatar = $this->uploadImage($request->file('avatar'));
           }
-        }
 
-        $user->name  = ucwords(mb_strtolower( $request->name ));
-        $user->email = mb_strtolower( $request->email );
-        $user->department_id = $request->department_id;
-        $user->save();
+          if($request->email != $user->email){
+            $password = str_random(8);
+            $user->password = Hash::make($password);
+            Mail::to($request->email)->send(new UpdateEmailUser($user, $password, $request->email));
 
-        $user->roles()->sync($request->role_id);
+            if ($user->id == $request->user()->id) {
+              $request->session()->flush();
+            }
+          }
+
+          $user->name  = ucwords(mb_strtolower( $request->name ));
+          $user->email = mb_strtolower( $request->email );
+          $user->department_id = $request->department_id;
+          $user->save();
+          $user->roles()->sync($request->role_id);
+        });
 
 
         return redirect()->route('usuarios')->with('message',"Usuario <strong>{$user->name}</strong> actualizado con exito");
@@ -106,9 +110,12 @@ class UserController extends Controller
 
     public function destroy(User $user)
     {
-      $this->deleteImage($user->avatar);
-      $name = User::findOrFail($user->id);
-      $name->delete();
+      DB::transaction(function() use ($user) {
+        $this->deleteImage($user->avatar);
+        $name = User::findOrFail($user->id);
+        $name->delete();
+        $this->destroyed(11, $user->email);
+      });
 
       return back()->with('message', "El usuario <strong>{$user->name}</strong> fue borrado correctamente");
     }
@@ -124,36 +131,38 @@ class UserController extends Controller
     public function updateProfile(Request $request, User $user)
     {
       $this->validateUser($request, $user);
+      DB::transaction(function() use ($request, $user) {
+        $this->updateUser($request, $user);
+        if ($request->has('avatar')) {
+          $this->deleteImage($user->avatar);
+          $image = $this->uploadImage($request->file('avatar'));
+          $user->avatar =$image;
+        }
 
-      if ($request->has('avatar')) {
-        $this->deleteImage($user->avatar);
-        $image = $this->uploadImage($request->file('avatar'));
-        $user->avatar =$image;
-      }
+        if ($request->password) {
+          $user->password = Hash::make($request->password);
+        }
 
-      if ($request->password) {
-        $user->password = Hash::make($request->password);
-      }
+        $user->name  = ucwords(mb_strtolower( $request->name ));
+        if ($request->has('department_id')) {
+          $user->department_id = $request->department_id ;
+        }
 
-      $user->name  = ucwords(mb_strtolower( $request->name ));
-      if ($request->has('department_id')) {
-        $user->department_id = $request->department_id ;
-      }
+        if ($request->has('role_id')) {
+          $user->roles()->sync($request->role_id);
+        }
 
-      if ($request->has('role_id')) {
-        $user->roles()->sync($request->role_id);
-      }
-
-      if($request->email != $user->email){
-        $password = str_random(8);
-        $user->password = $request->password ? Hash::make($request->password): Hash::make($password);
-        Mail::to($request->email)->send(new UpdateEmailUser($user,
-                                                            $request->password ? $request->password: $password,
-                                                            $request->email));
-        $request->session()->flush();
-      }
-      $user->email = mb_strtolower( $request->email );
-      $user->save();
+        if($request->email != $user->email){
+          $password = str_random(8);
+          $user->password = $request->password ? Hash::make($request->password): Hash::make($password);
+          Mail::to($request->email)->send(new UpdateEmailUser($user,
+                                                              $request->password ? $request->password: $password,
+                                                              $request->email));
+          $request->session()->flush();
+        }
+        $user->email = mb_strtolower( $request->email );
+        $user->save();
+      });
 
       $route = back()->with('message', "El perfil fue actualizado correctamente");
 

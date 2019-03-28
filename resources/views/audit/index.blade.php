@@ -8,6 +8,51 @@
 
 @section('content')
 <div class="row">
+  <div class="col-sm-12">
+    <div class="box">
+      <div class="box-body">
+        <form class="form-horizontal" id="auditForm">
+          <div class="form-group">
+            <div class="col-lg-2 col-md-2">
+              <select class="form-control select2" id="action" name="action">
+                  <option value="0">Todos</option>
+                @foreach($actions as $action)
+                  <option value="{{ $action->id }}" {{ isset($request) && $action->id == $request->action ?  'selected': '' }}>{{ $action->name }}</option>
+                @endforeach
+              </select>
+            </div>
+            <div class="col-lg-2 col-md-2">
+              <select class="form-control select2" id="place" name="place">
+                <option value="0">Todos</option>
+                @foreach($places as $place)
+                  <option value="{{ $place->id }}" {{ isset($request) && $place->id == $request->place ?  'selected': '' }}>{{ $place->name }}</option>
+                @endforeach
+              </select>
+            </div>
+            <div class="col-lg-2 col-md-2">
+              <select class="form-control select2" id="user" name="user">
+                  <option value="0">Todos</option>
+                @foreach($users as $user)
+                  <option value="{{ $user->id }}" {{ isset($request) && $user->id == $request->user ?  'selected': '' }}>{{ $user->email }}</option>
+                @endforeach
+              </select>
+            </div>
+            <div class="col-lg-2 col-md-2">
+              <input class="form-control" type="date"id="begin" name="begin" value="{{ isset($request) ? $request->begin : '' }}">
+            </div>
+            <div class="col-lg-2 col-md-2">
+              <input class="form-control" type="date" id="end" name="end" value="{{ isset($request) ? $request->end : '' }}">
+            </div>
+            <div class="col-lg-1 col-md-1">
+                <button type="submit" class="btn btn-primary btn-flat"> <i class="fa fa-search"> </i></button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="row">
   <div class="col-lg-12">
     <div class="box box-info">
       <div class="box-header">
@@ -54,5 +99,5 @@
 @stop
 
 @section('js')
-    <!-- <script type="text/javascript" src="{{ asset('js/settings/departments.js') }}"></script> -->
+    <script type="text/javascript" src="{{ asset('js/audit.js') }}"></script>
 @stop

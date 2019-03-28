@@ -6,26 +6,12 @@ use Caffeinated\Shinobi\Models\Role;
 use Caffeinated\Shinobi\Models\Permission;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use App\Http\Traits\Audit;
 
 class RoleController extends Controller
 {
     use Audit;
-
-    public $user_auth;
-
-    public function __construct()
-    {
-      $this->middleware('auth');
-      $this->middleware(function ($request, $next) {
-        $this->user_auth = Auth::user()->email;
-
-        return $next($request);
-      });
-
-    }
 
     protected function getSpecialPermissionList()
     {
@@ -76,7 +62,7 @@ class RoleController extends Controller
         ]);
 
         $role->permissions()->attach($request->permissions);
-        $this->creations(10, $this->user_auth, $role->name);
+        $this->creations(10, $role->name);
       });
 
       return back()->with('message', "El rol <strong> {$request->name} </strong> fue cargado correctamente");;
@@ -104,15 +90,22 @@ class RoleController extends Controller
       ],[
         'permissions.required' => 'Debe marcar al menos un permiso'
       ]);
+      DB::transaction(function() use ($request, $role) {
+        $role->update([
+          'name'        => ucwords(mb_strtolower( $request->name )),
+          'slug'        => mb_strtolower( $request->name ),
+          'description' => $request->description ? ucfirst(mb_strtolower( $request->description )) : null ,
+          'special'     => $request->special ? mb_strtolower($request->special) : null
+        ]);
 
-      $role->update([
-        'name'        => ucwords(mb_strtolower( $request->name )),
-        'slug'        => mb_strtolower( $request->name ),
-        'description' => $request->description ? ucfirst(mb_strtolower( $request->description )) : null ,
-        'special'     => $request->special ? mb_strtolower($request->special) : null
-      ]);
+        if ($role->getChanges()) {
+                $this->updates(10, $role->name, $role->getChanges());
+        }
 
-      $role->permissions()->sync($request->permissions);
+        $permissions = $role->permissions()->sync($request->permissions);
+
+        $this->getPermisssionsUpdates(10, $role->name, $permissions);
+      });
 
       return redirect()->route('roles')->with('message',"Rol <strong>{$role->name}</strong> actualizado con exito");
     }
@@ -121,7 +114,7 @@ class RoleController extends Controller
     {
       DB::transaction(function() use ($role) {
         Role::destroy($role->id);
-        $this->destroyed(10, $this->user_auth, $role->name);
+        $this->destroyed(10, $role->name);
       });
       return back()->with('message', "El rol <strong>{$role->name}</strong> fue borrado correctamente");
     }

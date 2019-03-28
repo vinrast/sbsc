@@ -8,10 +8,11 @@ use App\Models\HistoryIndicator;
 use Carbon\Carbon;
 use App\Http\Traits\IndicatorTools;
 use App\Http\Traits\Translator;
+use App\Http\Traits\Audit;
 
 trait CommonIndicators
 {
-  use IndicatorTools, Translator;
+  use IndicatorTools, Translator, Audit;
 
   public function index(Request $request, $view, $perspective)
   {
@@ -62,7 +63,7 @@ trait CommonIndicators
   public function destroy(HistoryIndicator $indicator)
   {
     HistoryIndicator::destroy($indicator->id);
-
+    $this->destroyed(13, $indicator->indicator->name." ({$indicator->date->format('m-Y')})");
     return [$indicator->indicator->name, $this->monthTranslator($indicator->date->format('m'))];
   }
 
@@ -84,7 +85,7 @@ trait CommonIndicators
         'result' => $result
       ]);
     }
-
+    $this->auditResults($query);
     return $query;
   }
 

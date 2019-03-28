@@ -11,7 +11,7 @@ class Audit extends Model
     protected $fillable = [
     'action_id', 'place_id', 'user', 'register', 'update_values'
     ];
-    
+
     protected $dates = ['created_at', 'updated_at'];
 
     public function action()
@@ -22,5 +22,12 @@ class Audit extends Model
     public function place()
     {
       return $this->belongsTo(Taxonomy::class);
+    }
+
+    public function scopeSearch($query, $data){
+      if ($data !=0) {
+        $query = $query->where('taxonomy_id', $data);
+      }
+      return $query;
     }
 }

@@ -13,19 +13,6 @@ class DepartmentController extends Controller
 {
   use Audit;
 
-    public $user_auth;
-
-    public function __construct()
-    {
-      $this->middleware('auth');
-      $this->middleware(function ($request, $next) {
-        $this->user_auth = Auth::user()->email;
-
-        return $next($request);
-      });
-
-    }
-
     public function validator($request)
     {
       $request->validate([
@@ -53,9 +40,8 @@ class DepartmentController extends Controller
                           'description' => $request->description ? ucfirst(mb_strtolower( $request->description )): null
                        ]);
 
-          $this->creations(9, $this->user_auth, $register->name);
+          $this->creations(9, $register->name);
       });
-
 
       return back()->with('message', "El departamento <strong> {$request->name} </strong> fue cargado correctamente");
     }
@@ -75,6 +61,7 @@ class DepartmentController extends Controller
              ],
             'description' => 'nullable'
         ]);
+
         DB::transaction(function() use ($request, $department) {
           $department->update([
             'name'        => ucwords(mb_strtolower( $request->name )),
@@ -82,13 +69,10 @@ class DepartmentController extends Controller
           ]);
 
           if ($department->getChanges()) {
-            $this->updates(9, $this->user_auth, $department->name, $department->getChanges());
+            $this->updates(9, $department->name, $department->getChanges());
           }
-
-
-
-
         });
+
         return redirect()->route('departamentos')->with('message',"Departamento <strong>{$department->name}</strong> actualizado con exito");
     }
 
@@ -97,7 +81,7 @@ class DepartmentController extends Controller
         DB::transaction(function() use ($department) {
           $name = Department::findOrFail($department->id);
           $name->delete();
-          $this->destroyed(9, $this->user_auth, $department->name);
+          $this->destroyed(9, $department->name);
         });
 
         return back()->with('message', "El departamento <strong>{$department->name}</strong> fue borrado correctamente");
